@@ -128,81 +128,309 @@
                     Menu Favorit Kami
                 </h2>
                 <p class="text-coffee-600 text-lg">
-                    Dipilih dengan cermat dari biji kopi terbaik, disajikan dengan penuh cinta.
+                    Minuman & makanan lezat dengan nuansa alam Kota Batu
                 </p>
             </div>
             
-            {{-- Menu Grid --}}
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-                {{-- Menu Card 1 --}}
-                <div class="group bg-cream-50 rounded-3xl p-6 hover:shadow-xl hover:shadow-coffee-200/50 transition-all duration-500 hover:-translate-y-2">
-                    <div class="w-full aspect-square bg-gradient-to-br from-coffee-200 to-coffee-300 rounded-2xl mb-6 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform duration-500">
-                        <i class="fas fa-mug-hot text-coffee-600 text-5xl"></i>
-                    </div>
-                    <div class="flex items-start justify-between mb-2">
-                        <h3 class="font-serif text-xl font-semibold text-coffee-900">Espresso</h3>
-                        <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">25K</span>
-                    </div>
-                    <p class="text-coffee-500 text-sm mb-4">Kopi klasik dengan rasa bold dan aroma yang kuat.</p>
-                    <button class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300">
-                        Tambah ke Keranjang
-                    </button>
-                </div>
-                
-                {{-- Menu Card 2 --}}
-                <div class="group bg-cream-50 rounded-3xl p-6 hover:shadow-xl hover:shadow-coffee-200/50 transition-all duration-500 hover:-translate-y-2">
-                    <div class="relative">
-                        <div class="w-full aspect-square bg-gradient-to-br from-cream-300 to-beige-300 rounded-2xl mb-6 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform duration-500">
-                            <i class="fas fa-glass-whiskey text-coffee-600 text-5xl"></i>
+            {{-- Coffee & Drinks --}}
+            <div class="mb-12">
+                <h3 class="font-serif text-2xl font-bold text-coffee-800 mb-8 flex items-center gap-3">
+                    <i class="fas fa-mug-hot text-coffee-500"></i>
+                    Minuman
+                </h3>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                    {{-- Kopi Susu Calthea --}}
+                    <div class="group bg-cream-50 rounded-3xl p-6 hover:shadow-xl hover:shadow-coffee-200/50 transition-all duration-500 hover:-translate-y-2">
+                        <div class="relative">
+                            <div class="w-full aspect-square bg-gradient-to-br from-coffee-200 to-coffee-400 rounded-2xl mb-6 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform duration-500">
+                                <i class="fas fa-glass-whiskey text-white text-5xl"></i>
+                            </div>
+                            <span class="absolute top-3 right-3 px-3 py-1 bg-red-500 text-white text-xs font-semibold rounded-full">Best Seller</span>
                         </div>
-                        <span class="absolute top-3 right-3 px-3 py-1 bg-red-500 text-white text-xs font-semibold rounded-full">Best Seller</span>
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="font-serif text-xl font-semibold text-coffee-900">Kopi Susu Calthea</h3>
+                            <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">18K</span>
+                        </div>
+                        <p class="text-coffee-500 text-sm mb-4">Signature drink dengan susu segar dan gula aren pilihan.</p>
+                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fab fa-whatsapp"></i> Pesan
+                        </a>
                     </div>
-                    <div class="flex items-start justify-between mb-2">
-                        <h3 class="font-serif text-xl font-semibold text-coffee-900">Caramel Latte</h3>
-                        <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">38K</span>
+                    
+                    {{-- Hot Caffe Latte --}}
+                    <div class="group bg-cream-50 rounded-3xl p-6 hover:shadow-xl hover:shadow-coffee-200/50 transition-all duration-500 hover:-translate-y-2">
+                        <div class="w-full aspect-square bg-gradient-to-br from-amber-100 to-amber-200 rounded-2xl mb-6 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform duration-500">
+                            <i class="fas fa-mug-hot text-amber-700 text-5xl"></i>
+                        </div>
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="font-serif text-xl font-semibold text-coffee-900">Hot Caffe Latte</h3>
+                            <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">20K</span>
+                        </div>
+                        <p class="text-coffee-500 text-sm mb-4">Kopi latte hangat dengan foam lembut sempurna.</p>
+                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fab fa-whatsapp"></i> Pesan
+                        </a>
                     </div>
-                    <p class="text-coffee-500 text-sm mb-4">Perpaduan manis karamel dengan kelembutan susu.</p>
-                    <button class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300">
-                        Tambah ke Keranjang
-                    </button>
+                    
+                    {{-- Matcha Latte --}}
+                    <div class="group bg-cream-50 rounded-3xl p-6 hover:shadow-xl hover:shadow-coffee-200/50 transition-all duration-500 hover:-translate-y-2">
+                        <div class="w-full aspect-square bg-gradient-to-br from-green-100 to-green-200 rounded-2xl mb-6 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform duration-500">
+                            <i class="fas fa-blender text-green-600 text-5xl"></i>
+                        </div>
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="font-serif text-xl font-semibold text-coffee-900">Matcha Latte</h3>
+                            <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">22K</span>
+                        </div>
+                        <p class="text-coffee-500 text-sm mb-4">Teh hijau premium dengan susu creamy.</p>
+                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fab fa-whatsapp"></i> Pesan
+                        </a>
+                    </div>
+                    
+                    {{-- Es Coklat --}}
+                    <div class="group bg-cream-50 rounded-3xl p-6 hover:shadow-xl hover:shadow-coffee-200/50 transition-all duration-500 hover:-translate-y-2">
+                        <div class="w-full aspect-square bg-gradient-to-br from-amber-200 to-amber-400 rounded-2xl mb-6 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform duration-500">
+                            <i class="fas fa-cookie-bite text-amber-800 text-5xl"></i>
+                        </div>
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="font-serif text-xl font-semibold text-coffee-900">Es Coklat</h3>
+                            <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">18K</span>
+                        </div>
+                        <p class="text-coffee-500 text-sm mb-4">Coklat dingin yang menyegarkan untuk cuaca panas.</p>
+                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fab fa-whatsapp"></i> Pesan
+                        </a>
+                    </div>
                 </div>
-                
-                {{-- Menu Card 3 --}}
-                <div class="group bg-cream-50 rounded-3xl p-6 hover:shadow-xl hover:shadow-coffee-200/50 transition-all duration-500 hover:-translate-y-2">
-                    <div class="w-full aspect-square bg-gradient-to-br from-green-100 to-green-200 rounded-2xl mb-6 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform duration-500">
-                        <i class="fas fa-blender text-green-600 text-5xl"></i>
+            </div>
+
+            {{-- Food Section --}}
+            <div class="mb-12">
+                <h3 class="font-serif text-2xl font-bold text-coffee-800 mb-8 flex items-center gap-3">
+                    <i class="fas fa-utensils text-coffee-500"></i>
+                    Makanan
+                </h3>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                    {{-- Nasgor Calthea --}}
+                    <div class="group bg-cream-50 rounded-3xl p-6 hover:shadow-xl hover:shadow-coffee-200/50 transition-all duration-500 hover:-translate-y-2">
+                        <div class="relative">
+                            <div class="w-full aspect-square bg-gradient-to-br from-orange-100 to-orange-200 rounded-2xl mb-6 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform duration-500">
+                                <i class="fas fa-bowl-rice text-orange-600 text-5xl"></i>
+                            </div>
+                            <span class="absolute top-3 right-3 px-3 py-1 bg-green-500 text-white text-xs font-semibold rounded-full">Favorit</span>
+                        </div>
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="font-serif text-xl font-semibold text-coffee-900">Nasgor Calthea</h3>
+                            <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">20K</span>
+                        </div>
+                        <p class="text-coffee-500 text-sm mb-4">Nasi goreng spesial dengan bumbu rahasia Calthea.</p>
+                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fab fa-whatsapp"></i> Pesan
+                        </a>
                     </div>
-                    <div class="flex items-start justify-between mb-2">
-                        <h3 class="font-serif text-xl font-semibold text-coffee-900">Matcha Latte</h3>
-                        <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">35K</span>
+                    
+                    {{-- Maryam --}}
+                    <div class="group bg-cream-50 rounded-3xl p-6 hover:shadow-xl hover:shadow-coffee-200/50 transition-all duration-500 hover:-translate-y-2">
+                        <div class="w-full aspect-square bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-2xl mb-6 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform duration-500">
+                            <i class="fas fa-cookie text-yellow-700 text-5xl"></i>
+                        </div>
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="font-serif text-xl font-semibold text-coffee-900">Roti Maryam</h3>
+                            <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">12K</span>
+                        </div>
+                        <p class="text-coffee-500 text-sm mb-4">Roti maryam lembut dengan topping coklat/keju.</p>
+                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fab fa-whatsapp"></i> Pesan
+                        </a>
                     </div>
-                    <p class="text-coffee-500 text-sm mb-4">Teh hijau Jepang premium dengan susu creamy.</p>
-                    <button class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300">
-                        Tambah ke Keranjang
-                    </button>
+                    
+                    {{-- Chicken Wings --}}
+                    <div class="group bg-cream-50 rounded-3xl p-6 hover:shadow-xl hover:shadow-coffee-200/50 transition-all duration-500 hover:-translate-y-2">
+                        <div class="w-full aspect-square bg-gradient-to-br from-red-100 to-red-200 rounded-2xl mb-6 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform duration-500">
+                            <i class="fas fa-drumstick-bite text-red-600 text-5xl"></i>
+                        </div>
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="font-serif text-xl font-semibold text-coffee-900">Chicken Wings</h3>
+                            <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">18K</span>
+                        </div>
+                        <p class="text-coffee-500 text-sm mb-4">Sayap ayam crispy dengan saus pilihan.</p>
+                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fab fa-whatsapp"></i> Pesan
+                        </a>
+                    </div>
+                    
+                    {{-- Kebab --}}
+                    <div class="group bg-cream-50 rounded-3xl p-6 hover:shadow-xl hover:shadow-coffee-200/50 transition-all duration-500 hover:-translate-y-2">
+                        <div class="w-full aspect-square bg-gradient-to-br from-amber-100 to-amber-300 rounded-2xl mb-6 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform duration-500">
+                            <i class="fas fa-hotdog text-amber-700 text-5xl"></i>
+                        </div>
+                        <div class="flex items-start justify-between mb-2">
+                            <h3 class="font-serif text-xl font-semibold text-coffee-900">Kebab</h3>
+                            <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">15K</span>
+                        </div>
+                        <p class="text-coffee-500 text-sm mb-4">Kebab dengan daging dan sayuran segar.</p>
+                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fab fa-whatsapp"></i> Pesan
+                        </a>
+                    </div>
                 </div>
-                
-                {{-- Menu Card 4 --}}
-                <div class="group bg-cream-50 rounded-3xl p-6 hover:shadow-xl hover:shadow-coffee-200/50 transition-all duration-500 hover:-translate-y-2">
-                    <div class="w-full aspect-square bg-gradient-to-br from-pink-100 to-pink-200 rounded-2xl mb-6 flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform duration-500">
-                        <i class="fas fa-ice-cream text-pink-600 text-5xl"></i>
+            </div>
+
+            {{-- Snacks Section - 20% Off --}}
+            <div class="mb-12">
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="font-serif text-2xl font-bold text-coffee-800 flex items-center gap-3">
+                        <i class="fas fa-cookie-bite text-coffee-500"></i>
+                        Snacks
+                    </h3>
+                    <span class="px-4 py-2 bg-red-500 text-white font-bold rounded-full animate-pulse">20% OFF Everyday!</span>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6">
+                    {{-- French Fries --}}
+                    <div class="group bg-cream-50 rounded-2xl p-4 hover:shadow-lg hover:shadow-coffee-200/50 transition-all duration-300 hover:-translate-y-1 text-center">
+                        <div class="w-16 h-16 mx-auto bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-xl mb-3 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fas fa-french-fries text-yellow-600 text-2xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-coffee-800 text-sm">French Fries</h4>
+                        <p class="text-coffee-400 text-xs line-through">15K</p>
+                        <p class="text-red-500 font-bold">12K</p>
                     </div>
-                    <div class="flex items-start justify-between mb-2">
-                        <h3 class="font-serif text-xl font-semibold text-coffee-900">Strawberry Frappe</h3>
-                        <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">42K</span>
+                    
+                    {{-- Pisang Goreng --}}
+                    <div class="group bg-cream-50 rounded-2xl p-4 hover:shadow-lg hover:shadow-coffee-200/50 transition-all duration-300 hover:-translate-y-1 text-center">
+                        <div class="w-16 h-16 mx-auto bg-gradient-to-br from-yellow-200 to-amber-200 rounded-xl mb-3 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fas fa-seedling text-amber-600 text-2xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-coffee-800 text-sm">Pisang Goreng</h4>
+                        <p class="text-coffee-400 text-xs line-through">12K</p>
+                        <p class="text-red-500 font-bold">10K</p>
                     </div>
-                    <p class="text-coffee-500 text-sm mb-4">Minuman segar dengan buah strawberry asli.</p>
-                    <button class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300">
-                        Tambah ke Keranjang
-                    </button>
+                    
+                    {{-- Banana Nugget --}}
+                    <div class="group bg-cream-50 rounded-2xl p-4 hover:shadow-lg hover:shadow-coffee-200/50 transition-all duration-300 hover:-translate-y-1 text-center">
+                        <div class="w-16 h-16 mx-auto bg-gradient-to-br from-amber-100 to-amber-200 rounded-xl mb-3 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fas fa-apple-whole text-amber-700 text-2xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-coffee-800 text-sm">Banana Nugget</h4>
+                        <p class="text-coffee-400 text-xs line-through">15K</p>
+                        <p class="text-red-500 font-bold">12K</p>
+                    </div>
+                    
+                    {{-- Cireng --}}
+                    <div class="group bg-cream-50 rounded-2xl p-4 hover:shadow-lg hover:shadow-coffee-200/50 transition-all duration-300 hover:-translate-y-1 text-center">
+                        <div class="w-16 h-16 mx-auto bg-gradient-to-br from-orange-100 to-orange-200 rounded-xl mb-3 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fas fa-circle text-orange-500 text-2xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-coffee-800 text-sm">Cireng</h4>
+                        <p class="text-coffee-400 text-xs line-through">10K</p>
+                        <p class="text-red-500 font-bold">8K</p>
+                    </div>
+                    
+                    {{-- Tahu Cabe Garam --}}
+                    <div class="group bg-cream-50 rounded-2xl p-4 hover:shadow-lg hover:shadow-coffee-200/50 transition-all duration-300 hover:-translate-y-1 text-center">
+                        <div class="w-16 h-16 mx-auto bg-gradient-to-br from-red-100 to-red-200 rounded-xl mb-3 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fas fa-pepper-hot text-red-500 text-2xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-coffee-800 text-sm">Tahu Cabe Garam</h4>
+                        <p class="text-coffee-400 text-xs line-through">12K</p>
+                        <p class="text-red-500 font-bold">10K</p>
+                    </div>
+                    
+                    {{-- Lumpia Sayur --}}
+                    <div class="group bg-cream-50 rounded-2xl p-4 hover:shadow-lg hover:shadow-coffee-200/50 transition-all duration-300 hover:-translate-y-1 text-center">
+                        <div class="w-16 h-16 mx-auto bg-gradient-to-br from-green-100 to-green-200 rounded-xl mb-3 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <i class="fas fa-leaf text-green-600 text-2xl"></i>
+                        </div>
+                        <h4 class="font-semibold text-coffee-800 text-sm">Lumpia Sayur</h4>
+                        <p class="text-coffee-400 text-xs line-through">12K</p>
+                        <p class="text-red-500 font-bold">10K</p>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Bundling Weekend Section --}}
+            <div class="mb-12">
+                <h3 class="font-serif text-2xl font-bold text-coffee-800 mb-8 flex items-center gap-3">
+                    <i class="fas fa-gift text-coffee-500"></i>
+                    Bundling Weekend
+                    <span class="px-3 py-1 bg-gradient-to-r from-coffee-500 to-coffee-600 text-white text-xs font-semibold rounded-full">HEMAT!</span>
+                </h3>
+                <div class="grid sm:grid-cols-2 gap-6 lg:gap-8">
+                    {{-- Package 1 --}}
+                    <div class="group bg-gradient-to-br from-coffee-50 to-cream-100 rounded-3xl p-8 border-2 border-coffee-200 hover:border-coffee-400 hover:shadow-xl hover:shadow-coffee-200/50 transition-all duration-500">
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="px-4 py-2 bg-coffee-600 text-white font-bold rounded-full">Paket 1</span>
+                            <div class="text-right">
+                                <span class="text-3xl font-bold text-coffee-800">25K</span>
+                                <p class="text-xs text-coffee-500">Hemat 13K!</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4 p-3 bg-white rounded-xl">
+                                <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-bowl-rice text-orange-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-coffee-800">Nasgor Calthea</h4>
+                                    <p class="text-coffee-400 text-sm">Nasi goreng spesial</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 p-3 bg-white rounded-xl">
+                                <div class="w-12 h-12 bg-coffee-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-glass-whiskey text-coffee-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-coffee-800">Kopi Susu Calthea</h4>
+                                    <p class="text-coffee-400 text-sm">Signature drink</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="mt-6 w-full py-4 bg-coffee-600 text-white font-bold rounded-xl hover:bg-coffee-700 transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fab fa-whatsapp text-lg"></i> Pesan Paket Ini
+                        </a>
+                    </div>
+                    
+                    {{-- Package 2 --}}
+                    <div class="group bg-gradient-to-br from-amber-50 to-cream-100 rounded-3xl p-8 border-2 border-amber-200 hover:border-amber-400 hover:shadow-xl hover:shadow-amber-200/50 transition-all duration-500">
+                        <div class="flex items-center justify-between mb-6">
+                            <span class="px-4 py-2 bg-amber-600 text-white font-bold rounded-full">Paket 2</span>
+                            <div class="text-right">
+                                <span class="text-3xl font-bold text-coffee-800">15K</span>
+                                <p class="text-xs text-coffee-500">Hemat 17K!</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4 p-3 bg-white rounded-xl">
+                                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-cookie text-yellow-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-coffee-800">Roti Maryam</h4>
+                                    <p class="text-coffee-400 text-sm">Dengan topping</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 p-3 bg-white rounded-xl">
+                                <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-mug-hot text-amber-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-coffee-800">Hot Caffe Latte</h4>
+                                    <p class="text-coffee-400 text-sm">Kopi hangat</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="mt-6 w-full py-4 bg-amber-600 text-white font-bold rounded-xl hover:bg-amber-700 transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fab fa-whatsapp text-lg"></i> Pesan Paket Ini
+                        </a>
+                    </div>
                 </div>
             </div>
             
             {{-- View All --}}
             <div class="text-center mt-12">
-                <a href="#" class="inline-flex items-center gap-2 px-8 py-4 border-2 border-coffee-300 text-coffee-700 font-semibold rounded-full hover:bg-coffee-600 hover:border-coffee-600 hover:text-white transition-all duration-300">
-                    Lihat Semua Menu
-                    <i class="fas fa-arrow-right"></i>
+                <a href="https://www.instagram.com/caltheabatu" target="_blank" class="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-pink-500 to-orange-400 text-white font-semibold rounded-full hover:from-pink-600 hover:to-orange-500 hover:shadow-xl transition-all duration-300">
+                    <i class="fab fa-instagram"></i>
+                    Lihat Menu Lengkap di Instagram
                 </a>
             </div>
         </div>
