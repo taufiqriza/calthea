@@ -32,9 +32,9 @@
                             <i class="fas fa-coffee"></i>
                             Lihat Menu
                         </a>
-                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="px-8 py-4 bg-gradient-to-r from-coffee-500 to-coffee-600 text-white font-semibold rounded-full hover:from-coffee-600 hover:to-coffee-700 hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2">
-                            <i class="fab fa-whatsapp"></i>
-                            Chat WhatsApp
+                        <a href="#reservasi" class="px-8 py-4 bg-gradient-to-r from-coffee-500 to-coffee-600 text-white font-semibold rounded-full hover:from-coffee-600 hover:to-coffee-700 hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fas fa-calendar-check"></i>
+                            Reservasi Meja
                         </a>
                     </div>
                     
@@ -152,9 +152,9 @@
                             <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">18K</span>
                         </div>
                         <p class="text-coffee-500 text-sm mb-4">Signature drink dengan susu segar dan gula aren pilihan.</p>
-                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
-                            <i class="fab fa-whatsapp"></i> Pesan
-                        </a>
+                                                <button class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Tambah
+                        </button>
                     </div>
                     
                     {{-- Hot Caffe Latte --}}
@@ -167,9 +167,9 @@
                             <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">20K</span>
                         </div>
                         <p class="text-coffee-500 text-sm mb-4">Kopi latte hangat dengan foam lembut sempurna.</p>
-                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
-                            <i class="fab fa-whatsapp"></i> Pesan
-                        </a>
+                                                <button class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Tambah
+                        </button>
                     </div>
                     
                     {{-- Matcha Latte --}}
@@ -182,9 +182,9 @@
                             <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">22K</span>
                         </div>
                         <p class="text-coffee-500 text-sm mb-4">Teh hijau premium dengan susu creamy.</p>
-                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
-                            <i class="fab fa-whatsapp"></i> Pesan
-                        </a>
+                                                <button class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Tambah
+                        </button>
                     </div>
                     
                     {{-- Es Coklat --}}
@@ -197,9 +197,9 @@
                             <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">18K</span>
                         </div>
                         <p class="text-coffee-500 text-sm mb-4">Coklat dingin yang menyegarkan untuk cuaca panas.</p>
-                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
-                            <i class="fab fa-whatsapp"></i> Pesan
-                        </a>
+                                                <button class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Tambah
+                        </button>
                     </div>
                 </div>
             </div>
@@ -224,9 +224,9 @@
                             <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">20K</span>
                         </div>
                         <p class="text-coffee-500 text-sm mb-4">Nasi goreng spesial dengan bumbu rahasia Calthea.</p>
-                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
-                            <i class="fab fa-whatsapp"></i> Pesan
-                        </a>
+                                                <button class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Tambah
+                        </button>
                     </div>
                     
                     {{-- Maryam --}}
@@ -239,9 +239,9 @@
                             <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">12K</span>
                         </div>
                         <p class="text-coffee-500 text-sm mb-4">Roti maryam lembut dengan topping coklat/keju.</p>
-                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
-                            <i class="fab fa-whatsapp"></i> Pesan
-                        </a>
+                                                <button class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Tambah
+                        </button>
                     </div>
                     
                     {{-- Chicken Wings --}}
@@ -254,9 +254,9 @@
                             <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">18K</span>
                         </div>
                         <p class="text-coffee-500 text-sm mb-4">Sayap ayam crispy dengan saus pilihan.</p>
-                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
-                            <i class="fab fa-whatsapp"></i> Pesan
-                        </a>
+                                                <button class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Tambah
+                        </button>
                     </div>
                     
                     {{-- Kebab --}}
@@ -269,9 +269,9 @@
                             <span class="px-3 py-1 bg-coffee-600 text-white text-sm font-semibold rounded-full">15K</span>
                         </div>
                         <p class="text-coffee-500 text-sm mb-4">Kebab dengan daging dan sayuran segar.</p>
-                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
-                            <i class="fab fa-whatsapp"></i> Pesan
-                        </a>
+                                                <button class="w-full py-3 bg-coffee-100 text-coffee-700 font-medium rounded-xl hover:bg-coffee-600 hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Tambah
+                        </button>
                     </div>
                 </div>
             </div>
@@ -385,9 +385,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="mt-6 w-full py-4 bg-coffee-600 text-white font-bold rounded-xl hover:bg-coffee-700 transition-all duration-300 flex items-center justify-center gap-2">
-                            <i class="fab fa-whatsapp text-lg"></i> Pesan Paket Ini
-                        </a>
+                        <button class="mt-6 w-full py-4 bg-coffee-600 text-white font-bold rounded-xl hover:bg-coffee-700 transition-all duration-300 flex items-center justify-center gap-2"><i class="fas fa-shopping-bag text-lg"></i> Pesan Paket Ini</button>
                     </div>
                     
                     {{-- Package 2 --}}
@@ -419,9 +417,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" class="mt-6 w-full py-4 bg-amber-600 text-white font-bold rounded-xl hover:bg-amber-700 transition-all duration-300 flex items-center justify-center gap-2">
-                            <i class="fab fa-whatsapp text-lg"></i> Pesan Paket Ini
-                        </a>
+                        <button class="mt-6 w-full py-4 bg-amber-600 text-white font-bold rounded-xl hover:bg-amber-700 transition-all duration-300 flex items-center justify-center gap-2"><i class="fas fa-shopping-bag text-lg"></i> Pesan Paket Ini</button>
                     </div>
                 </div>
             </div>
@@ -677,10 +673,10 @@
             </p>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="https://api.whatsapp.com/message/LO4AQRWQTDBCO1" target="_blank" id="pesan" class="px-10 py-5 bg-coffee-600 text-white font-bold text-lg rounded-full hover:bg-coffee-700 hover:shadow-2xl hover:shadow-coffee-600/40 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3">
-                    <i class="fab fa-whatsapp"></i>
-                    Chat WhatsApp
-                </a>
+                <button id="pesan" class="px-10 py-5 bg-coffee-600 text-white font-bold text-lg rounded-full hover:bg-coffee-700 hover:shadow-2xl hover:shadow-coffee-600/40 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3">
+                    <i class="fas fa-calendar-check"></i>
+                    Reservasi Sekarang
+                </button>
                 <a href="https://maps.app.goo.gl/4hWQprUNQM48X8rG6" target="_blank" class="px-10 py-5 bg-white text-coffee-700 font-bold text-lg rounded-full border-2 border-coffee-200 hover:border-coffee-400 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-3">
                     <i class="fas fa-map-marker-alt"></i>
                     Lihat Lokasi
