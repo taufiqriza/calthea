@@ -4,8 +4,163 @@
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
+@source '../**/*.vue';
 
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-coffee-50: #faf6f3;
+    --color-coffee-100: #f5ede5;
+    --color-coffee-200: #e8d5c4;
+    --color-coffee-300: #d9b89c;
+    --color-coffee-400: #c49a76;
+    --color-coffee-500: #b17f56;
+    --color-coffee-600: #8b5a2b;
+    --color-coffee-700: #6f4a25;
+    --color-coffee-800: #5c3d21;
+    --color-coffee-900: #4a311b;
+    --color-coffee-950: #3d2715;
+
+    --color-cream-50: #fefdfb;
+    --color-cream-100: #fdf9f3;
+    --color-cream-200: #faf3e8;
+    --color-cream-300: #f5e9d8;
+    --color-cream-400: #eddcc3;
+    --color-cream-500: #e3cbaa;
+
+    --color-beige-50: #faf8f5;
+    --color-beige-100: #f5f1eb;
+    --color-beige-200: #ebe3d7;
+    --color-beige-300: #ddd0bc;
+    --color-beige-400: #c9b599;
+    --color-beige-500: #b59b7a;
+
+    /* Admin Theme Colors - Soft Coffee/Latte Theme (Match Reference) */
+    /* Primary Accent (Tombol Active, Progress Bar) */
+    --color-admin-primary: #A06B52;
+
+    /* Light Mode */
+    --color-admin-bg-light: #F2EBE5;
+    /* Main Content Background (Clean Cream) */
+    --color-admin-card-light: #FFFFFF;
+    /* Pure White Cards */
+    --color-admin-sidebar-light: #EAD8D0;
+    /* Sidebar Background (Soft Pinkish Beige) */
+
+    --color-admin-text-main-light: #3F2E25;
+    /* Dark Coffee Text */
+    --color-admin-text-muted-light: #9C8E85;
+    /* Muted Text */
+
+    /* Dark Mode (Tetap Espresso Theme) */
+    --color-admin-bg-dark: #1C1917;
+    --color-admin-card-dark: #292524;
+    --color-admin-sidebar-dark: #231F1D;
+    --color-admin-text-main-dark: #E7E5E4;
+    --color-admin-text-muted-dark: #A8A29E;
+}
+
+body {
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+.font-serif {
+    font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* Glassmorphism */
+.glass {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.glass-dark {
+    background: rgba(93, 64, 55, 0.9);
+    backdrop-filter: blur(20px);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f5f1eb;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c49a76;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #8b5a2b;
+}
+
+/* Animations */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+/* Mobile Bottom Nav Padding */
+.main-content {
+    padding-bottom: 5rem;
+}
+
+@media (min-width: 1024px) {
+    .main-content {
+        padding-bottom: 0;
+    }
+}
+
+/* Safe area for iOS */
+.safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Vue transitions */
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+/* Router link active state - only apply to nav links, not logo */
+nav .router-link-active {
+    background-color: var(--color-coffee-600);
+    color: white;
 }
