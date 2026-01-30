@@ -69,6 +69,10 @@ body {
     font-family: 'Playfair Display', Georgia, serif;
 }
 
+.font-display {
+    font-family: 'Plus Jakarta Sans', 'Instrument Sans', sans-serif;
+}
+
 /* Glassmorphism */
 .glass {
     background: rgba(255, 255, 255, 0.85);
@@ -159,8 +163,8 @@ body {
     opacity: 0;
 }
 
-/* Router link active state - only apply to nav links, not logo */
-nav .router-link-active {
+/* Router link active state - only apply to desktop main nav */
+.main-nav .router-link-active {
     background-color: var(--color-coffee-600);
     color: white;
 }

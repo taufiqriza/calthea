@@ -129,6 +129,22 @@ const router = createRouter({
   },
 });
 
+const resolveRouteComponent = async (record) => {
+  if (typeof record.component === 'function') {
+    const resolved = await record.component();
+    record.component = resolved.default || resolved;
+  }
+};
+
+router.beforeResolve(async (to, from, next) => {
+  try {
+    await Promise.all(to.matched.map(resolveRouteComponent));
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Update document title
 // Update document title & Auth Check
 router.beforeEach(async (to, from, next) => {

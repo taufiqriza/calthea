@@ -36,7 +36,7 @@ onUnmounted(() => {
         </RouterLink>
 
         <!-- Nav -->
-        <nav class="flex items-center bg-white/60 backdrop-blur-md rounded-full px-2 py-2 shadow-lg shadow-coffee-100/50 border border-white/50">
+        <nav class="main-nav flex items-center bg-white/60 backdrop-blur-md rounded-full px-2 py-2 shadow-lg shadow-coffee-100/50 border border-white/50">
           <RouterLink 
             to="/" 
             class="group flex items-center gap-2 px-5 py-2.5 rounded-full text-coffee-700 hover:bg-coffee-600 hover:text-white font-medium transition-all duration-300"
