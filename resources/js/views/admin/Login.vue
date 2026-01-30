@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
+import { RouterLink, useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
-import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
 const router = useRouter();
@@ -76,6 +76,16 @@ const handleLogin = async () => {
           <span v-else>Sign In</span>
         </button>
       </form>
+
+      <div class="mt-6 flex items-center justify-center">
+        <RouterLink
+          to="/"
+          class="inline-flex items-center gap-2 text-xs font-semibold tracking-wide uppercase text-[#A06B52] hover:text-[#8B5A2B] transition-colors"
+        >
+          <span class="material-icons-outlined text-sm">arrow_back</span>
+          Kembali ke Home
+        </RouterLink>
+      </div>
 
       <div class="mt-8 text-center text-xs text-gray-400">
         &copy; 2026 Calthea Coffee & Nature
