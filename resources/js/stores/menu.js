@@ -1,206 +1,38 @@
 import { defineStore } from 'pinia';
+import axios from 'axios';
 
 export const useMenuStore = defineStore('menu', {
   state: () => ({
-    drinks: [
-      {
-        id: 1,
-        title: 'Kopi Susu Calthea',
-        price: '18K',
-        description: 'Signature drink dengan susu segar dan gula aren pilihan.',
-        icon: 'fa-glass-whiskey',
-        gradient: 'from-coffee-200 to-coffee-400',
-        badge: 'best-seller',
-        category: 'drink',
-      },
-      {
-        id: 2,
-        title: 'Hot Caffe Latte',
-        price: '20K',
-        description: 'Kopi latte hangat dengan foam lembut sempurna.',
-        icon: 'fa-mug-hot',
-        gradient: 'from-amber-100 to-amber-200',
-        iconColor: 'text-amber-700',
-        category: 'drink',
-      },
-      {
-        id: 3,
-        title: 'Matcha Latte',
-        price: '22K',
-        description: 'Teh hijau premium dengan susu creamy.',
-        icon: 'fa-blender',
-        gradient: 'from-green-100 to-green-200',
-        iconColor: 'text-green-600',
-        category: 'drink',
-      },
-      {
-        id: 4,
-        title: 'Es Coklat',
-        price: '18K',
-        description: 'Coklat dingin yang menyegarkan untuk cuaca panas.',
-        icon: 'fa-cookie-bite',
-        gradient: 'from-amber-200 to-amber-400',
-        iconColor: 'text-amber-800',
-        category: 'drink',
-      },
-    ],
-    foods: [
-      {
-        id: 5,
-        title: 'Nasgor Calthea',
-        price: '20K',
-        description: 'Nasi goreng spesial dengan bumbu rahasia Calthea.',
-        icon: 'fa-bowl-rice',
-        gradient: 'from-orange-100 to-orange-200',
-        iconColor: 'text-orange-600',
-        badge: 'favorit',
-        category: 'food',
-      },
-      {
-        id: 6,
-        title: 'Roti Maryam',
-        price: '12K',
-        description: 'Roti maryam lembut dengan topping coklat/keju.',
-        icon: 'fa-cookie',
-        gradient: 'from-yellow-100 to-yellow-200',
-        iconColor: 'text-yellow-700',
-        category: 'food',
-      },
-      {
-        id: 7,
-        title: 'Chicken Wings',
-        price: '18K',
-        description: 'Sayap ayam crispy dengan saus pilihan.',
-        icon: 'fa-drumstick-bite',
-        gradient: 'from-red-100 to-red-200',
-        iconColor: 'text-red-600',
-        category: 'food',
-      },
-      {
-        id: 8,
-        title: 'Kebab',
-        price: '15K',
-        description: 'Kebab dengan daging dan sayuran segar.',
-        icon: 'fa-hotdog',
-        gradient: 'from-amber-100 to-amber-300',
-        iconColor: 'text-amber-700',
-        category: 'food',
-      },
-    ],
-    snacks: [
-      {
-        id: 9,
-        title: 'French Fries',
-        originalPrice: '15K',
-        discountPrice: '12K',
-        icon: 'fa-french-fries',
-        gradient: 'from-yellow-100 to-yellow-200',
-        iconColor: 'text-yellow-600',
-        category: 'snack',
-      },
-      {
-        id: 10,
-        title: 'Pisang Goreng',
-        originalPrice: '12K',
-        discountPrice: '10K',
-        icon: 'fa-seedling',
-        gradient: 'from-yellow-200 to-amber-200',
-        iconColor: 'text-amber-600',
-        category: 'snack',
-      },
-      {
-        id: 11,
-        title: 'Banana Nugget',
-        originalPrice: '15K',
-        discountPrice: '12K',
-        icon: 'fa-apple-whole',
-        gradient: 'from-amber-100 to-amber-200',
-        iconColor: 'text-amber-700',
-        category: 'snack',
-      },
-      {
-        id: 12,
-        title: 'Cireng',
-        originalPrice: '10K',
-        discountPrice: '8K',
-        icon: 'fa-circle',
-        gradient: 'from-orange-100 to-orange-200',
-        iconColor: 'text-orange-500',
-        category: 'snack',
-      },
-      {
-        id: 13,
-        title: 'Tahu Cabe Garam',
-        originalPrice: '12K',
-        discountPrice: '10K',
-        icon: 'fa-pepper-hot',
-        gradient: 'from-red-100 to-red-200',
-        iconColor: 'text-red-500',
-        category: 'snack',
-      },
-      {
-        id: 14,
-        title: 'Lumpia Sayur',
-        originalPrice: '12K',
-        discountPrice: '10K',
-        icon: 'fa-leaf',
-        gradient: 'from-green-100 to-green-200',
-        iconColor: 'text-green-600',
-        category: 'snack',
-      },
-    ],
-    bundles: [
-      {
-        id: 15,
-        name: 'Paket 1',
-        price: '25K',
-        savings: '13K',
-        theme: 'coffee',
-        items: [
-          {
-            icon: 'fa-bowl-rice',
-            iconBg: 'bg-orange-100',
-            iconColor: 'text-orange-600',
-            title: 'Nasgor Calthea',
-            description: 'Nasi goreng spesial',
-          },
-          {
-            icon: 'fa-glass-whiskey',
-            iconBg: 'bg-coffee-100',
-            iconColor: 'text-coffee-600',
-            title: 'Kopi Susu Calthea',
-            description: 'Signature drink',
-          },
-        ],
-      },
-      {
-        id: 16,
-        name: 'Paket 2',
-        price: '15K',
-        savings: '17K',
-        theme: 'amber',
-        items: [
-          {
-            icon: 'fa-cookie',
-            iconBg: 'bg-yellow-100',
-            iconColor: 'text-yellow-600',
-            title: 'Roti Maryam',
-            description: 'Dengan topping',
-          },
-          {
-            icon: 'fa-mug-hot',
-            iconBg: 'bg-amber-100',
-            iconColor: 'text-amber-600',
-            title: 'Hot Caffe Latte',
-            description: 'Kopi hangat',
-          },
-        ],
-      },
-    ],
+    items: [],
+    loading: false,
+    error: null,
   }),
   getters: {
-    bestSellers: (state) => state.drinks.filter((d) => d.badge === 'best-seller'),
-    allMenuItems: (state) => [...state.drinks, ...state.foods],
-    discountedSnacks: (state) => state.snacks,
+    drinks: (state) => state.items.filter((item) => item.category === 'drink'),
+    foods: (state) => state.items.filter((item) => item.category === 'food'),
+    snacks: (state) => state.items.filter((item) => item.category === 'snack'),
+    featured: (state) => state.items.filter((item) => item.is_featured),
+  },
+  actions: {
+    async fetch(params = {}) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const response = await axios.get('/api/menu', { params });
+        const payload = response?.data?.data;
+        if (Array.isArray(payload)) {
+          this.items = payload;
+        } else if (payload && Array.isArray(payload.all)) {
+          this.items = payload.all;
+        } else {
+          this.items = [];
+        }
+      } catch (error) {
+        this.error = error?.response?.data?.message || 'Failed to load menu';
+        this.items = [];
+      } finally {
+        this.loading = false;
+      }
+    },
   },
 });

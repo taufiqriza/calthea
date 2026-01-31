@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import Sidebar from '@/components/admin/Sidebar.vue';
+import AdminMobileNav from '@/components/admin/AdminMobileNav.vue';
 import { RouterView } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 
@@ -29,7 +30,7 @@ const sidebarCollapsed = ref(false);
     </Transition>
     
     <!-- Main Content -->
-    <main class="relative flex-1 overflow-y-auto">
+    <main class="relative flex-1 overflow-y-auto pb-24 lg:pb-0">
       <!-- Header -->
       <header class="border-b border-white/60 dark:border-white/10 bg-admin-bg-light/80 dark:bg-admin-bg-dark/80 px-4 sm:px-6 lg:px-8 py-4 backdrop-blur-xl sticky top-0 z-30">
         <div class="flex flex-wrap items-center justify-between gap-4">
@@ -92,6 +93,8 @@ const sidebarCollapsed = ref(false);
         </RouterView>
       </div>
     </main>
+
+    <AdminMobileNav />
   </div>
 </template>
 

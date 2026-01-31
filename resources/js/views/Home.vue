@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import { useMenuStore } from '@/stores/menu';
 import Navbar from '@components/layout/Navbar.vue';
 import Footer from '@components/layout/Footer.vue';
@@ -8,16 +8,26 @@ import WhatsAppFloat from '@components/shared/WhatsAppFloat.vue';
 import SectionHeader from '@components/shared/SectionHeader.vue';
 import MenuCard from '@components/home/MenuCard.vue';
 import Button from '@components/ui/Button.vue';
+import OrderModal from '@components/shared/OrderModal.vue';
+import { useOrderStore } from '@/stores/order';
 
 const menuStore = useMenuStore();
+const orderStore = useOrderStore();
+const showOrderModal = ref(false);
+
+const drinks = computed(() => menuStore.drinks);
+const foods = computed(() => menuStore.foods);
 
 const handleAddToCart = (item) => {
-  console.log('Add to cart:', item);
-  // Future: implement cart functionality
+  orderStore.addItem(item);
 };
 
 // Scroll Animation Observer
 onMounted(() => {
+  if (!menuStore.items.length) {
+    menuStore.fetch();
+  }
+
   const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -176,15 +186,14 @@ onMounted(() => {
             </h3>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-8">
               <MenuCard
-                v-for="drink in menuStore.drinks"
+                v-for="drink in drinks"
                 :key="drink.id"
-                :title="drink.title"
-                :price="drink.price"
+                :title="drink.name"
+                :price="Number(drink.price)"
                 :description="drink.description"
-                :icon="drink.icon"
-                :gradient="drink.gradient"
-                :icon-color="drink.iconColor"
-                :badge="drink.badge"
+                :image="drink.image"
+                :category="drink.category"
+                :badge="drink.is_featured ? 'best-seller' : ''"
                 @add-to-cart="handleAddToCart(drink)"
               />
             </div>
@@ -198,15 +207,14 @@ onMounted(() => {
             </h3>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-8">
               <MenuCard
-                v-for="food in menuStore.foods"
+                v-for="food in foods"
                 :key="food.id"
-                :title="food.title"
-                :price="food.price"
+                :title="food.name"
+                :price="Number(food.price)"
                 :description="food.description"
-                :icon="food.icon"
-                :gradient="food.gradient"
-                :icon-color="food.iconColor"
-                :badge="food.badge"
+                :image="food.image"
+                :category="food.category"
+                :badge="food.is_featured ? 'favorit' : ''"
                 @add-to-cart="handleAddToCart(food)"
               />
             </div>
@@ -345,6 +353,17 @@ onMounted(() => {
     <Footer />
     <MobileNav />
     <WhatsAppFloat />
+
+    <button
+      v-if="orderStore.itemCount > 0"
+      @click="showOrderModal = true"
+      class="fixed z-50 right-4 lg:right-8 bottom-28 lg:bottom-8 px-5 py-3 bg-coffee-600 hover:bg-coffee-700 text-white font-semibold rounded-full shadow-xl shadow-coffee-500/30 flex items-center gap-2"
+    >
+      <i class="fas fa-receipt"></i>
+      <span>Pesan ({{ orderStore.itemCount }})</span>
+    </button>
+
+    <OrderModal :open="showOrderModal" @close="showOrderModal = false" />
   </div>
 </template>
 

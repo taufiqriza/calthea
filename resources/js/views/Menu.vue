@@ -1,15 +1,19 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useMenuStore } from '@/stores/menu';
 import Navbar from '@components/layout/Navbar.vue';
 import Footer from '@components/layout/Footer.vue';
 import MobileNav from '@components/layout/MobileNav.vue';
 import WhatsAppFloat from '@components/shared/WhatsAppFloat.vue';
 import MenuCard from '@components/home/MenuCard.vue';
+import OrderModal from '@components/shared/OrderModal.vue';
+import { useOrderStore } from '@/stores/order';
 
 const menuStore = useMenuStore();
+const orderStore = useOrderStore();
 const selectedCategory = ref('all');
 const searchQuery = ref('');
+const showOrderModal = ref(false);
 
 const categories = [
   { id: 'all', name: 'Semua', icon: 'fa-th-large' },
@@ -18,31 +22,38 @@ const categories = [
   { id: 'snack', name: 'Snacks', icon: 'fa-cookie-bite' },
 ];
 
-const filteredMenu = ref([...menuStore.drinks, ...menuStore.foods, ...menuStore.snacks]);
+const allItems = computed(() => menuStore.items);
+
+const filteredMenu = computed(() => {
+  let items = allItems.value;
+  if (selectedCategory.value !== 'all') {
+    items = items.filter(item => item.category === selectedCategory.value);
+  }
+  if (searchQuery.value) {
+    items = items.filter(item =>
+      (item.name || '').toLowerCase().includes(searchQuery.value.toLowerCase())
+    );
+  }
+  return items;
+});
 
 const filterMenu = (category) => {
   selectedCategory.value = category;
-  const allItems = [...menuStore.drinks, ...menuStore.foods, ...menuStore.snacks];
-  
-  if (category === 'all') {
-    filteredMenu.value = allItems;
-  } else {
-    filteredMenu.value = allItems.filter(item => item.category === category);
-  }
-  
-  if (searchQuery.value) {
-    filteredMenu.value = filteredMenu.value.filter(item => 
-      item.title.toLowerCase().includes(searchQuery.value.toLowerCase())
-    );
-  }
 };
 
-const handleSearch = () => {
-  filterMenu(selectedCategory.value);
+const categoryCount = (id) => {
+  if (id === 'all') return allItems.value.length;
+  return allItems.value.filter(item => item.category === id).length;
 };
+
+onMounted(() => {
+  if (!menuStore.items.length) {
+    menuStore.fetch();
+  }
+});
 
 const handleAddToCart = (item) => {
-  console.log('Add to cart:', item);
+  orderStore.addItem(item);
 };
 </script>
 
@@ -69,12 +80,11 @@ const handleAddToCart = (item) => {
             <div class="relative">
               <input
                 v-model="searchQuery"
-                @input="handleSearch"
                 type="text"
                 placeholder="Cari menu..."
                 class="w-full px-6 py-4 pr-12 rounded-full border-2 border-coffee-200 focus:border-coffee-500 focus:outline-none text-coffee-900 placeholder-coffee-400"
               >
-              <button class="absolute right-4 top-1/2 -translate-y-1/2 text-coffee-500 hover:text-coffee-700">
+              <button class="absolute right-4 top-1/2 -translate-y-1/2 text-coffee-500 hover:text-coffee-700" type="button">
                 <i class="fas fa-search text-xl"></i>
               </button>
             </div>
@@ -100,10 +110,7 @@ const handleAddToCart = (item) => {
               <i :class="`fas ${cat.icon}`"></i>
               <span>{{ cat.name }}</span>
               <span class="px-2 py-0.5 bg-white/20 rounded-full text-xs">
-                {{ cat.id === 'all' ? menuStore.drinks.length + menuStore.foods.length + menuStore.snacks.length : 
-                   cat.id === 'drink' ? menuStore.drinks.length :
-                   cat.id === 'food' ? menuStore.foods.length :
-                   menuStore.snacks.length }}
+                {{ categoryCount(cat.id) }}
               </span>
             </button>
           </div>
@@ -117,24 +124,27 @@ const handleAddToCart = (item) => {
             <MenuCard
               v-for="item in filteredMenu"
               :key="item.id"
-              :title="item.title"
-              :price="item.price"
+              :title="item.name"
+              :price="Number(item.price)"
               :description="item.description"
-              :icon="item.icon"
-              :gradient="item.gradient"
-              :icon-color="item.iconColor"
-              :badge="item.badge"
+              :image="item.image"
+              :category="item.category"
+              :badge="item.is_featured ? 'best-seller' : ''"
               @add-to-cart="handleAddToCart(item)"
             />
           </div>
 
           <!-- Empty State -->
-          <div v-if="filteredMenu.length === 0" class="text-center py-20">
+          <div v-if="!menuStore.loading && filteredMenu.length === 0" class="text-center py-20">
             <i class="fas fa-search text-6xl text-coffee-300 mb-4"></i>
             <p class="text-coffee-600 text-lg">Tidak ada menu yang ditemukan</p>
             <button @click="searchQuery = ''; filterMenu('all')" class="mt-4 px-6 py-3 bg-coffee-600 text-white rounded-full hover:bg-coffee-700 transition">
               Reset Pencarian
             </button>
+          </div>
+
+          <div v-if="menuStore.loading" class="text-center py-16 text-coffee-400">
+            Memuat menu...
           </div>
         </div>
       </section>
@@ -166,6 +176,17 @@ const handleAddToCart = (item) => {
     <Footer />
     <MobileNav />
     <WhatsAppFloat />
+
+    <button
+      v-if="orderStore.itemCount > 0"
+      @click="showOrderModal = true"
+      class="fixed z-50 right-4 lg:right-8 bottom-28 lg:bottom-8 px-5 py-3 bg-coffee-600 hover:bg-coffee-700 text-white font-semibold rounded-full shadow-xl shadow-coffee-500/30 flex items-center gap-2"
+    >
+      <i class="fas fa-receipt"></i>
+      <span>Pesan ({{ orderStore.itemCount }})</span>
+    </button>
+
+    <OrderModal :open="showOrderModal" @close="showOrderModal = false" />
   </div>
 </template>
 

@@ -94,6 +94,12 @@ const routes = [
         name: 'admin.menu',
         component: () => import('@views/admin/menu/Index.vue'),
         meta: { title: 'Menu Management - Calthea Admin' }
+      },
+      {
+        path: 'orders',
+        name: 'admin.orders',
+        component: () => import('@views/admin/orders/Index.vue'),
+        meta: { title: 'Pesanan - Calthea Admin' }
       }
     ]
   }

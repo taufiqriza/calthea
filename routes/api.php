@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\MenuController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ReservationController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\AuthController;
@@ -21,6 +22,9 @@ Route::post('/reviews', [ReviewController::class, 'store']);
 Route::post('/reservations', [ReservationController::class, 'store']);
 Route::post('/reservations/check-availability', [ReservationController::class, 'checkAvailability']);
 
+// Orders (Public)
+Route::post('/orders', [OrderController::class, 'store']);
+
 // Protected Admin Routes
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -33,4 +37,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/menu', [MenuController::class, 'store']);
     Route::post('/menu/{id}', [MenuController::class, 'update']); // Use POST with _method=PUT for file upload support
     Route::delete('/menu/{id}', [MenuController::class, 'destroy']);
+
+    // Orders (Admin)
+    Route::get('/orders', [OrderController::class, 'index']);
+    Route::get('/orders/{id}', [OrderController::class, 'show']);
+    Route::patch('/orders/{id}', [OrderController::class, 'update']);
 });

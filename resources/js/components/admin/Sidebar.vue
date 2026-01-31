@@ -76,6 +76,20 @@ const handleLogout = async () => {
           <span v-if="!collapsed" class="text-sm">Menu</span>
         </RouterLink>
 
+        <RouterLink 
+          to="/admin/orders" 
+          class="flex items-center rounded-2xl transition-all duration-300 font-medium"
+          :class="[
+            collapsed ? 'justify-center px-3 py-3' : 'gap-3 px-4 py-3',
+            isActive('/admin/orders') ? 'bg-admin-primary text-white shadow-lg shadow-admin-primary/30' : 'text-admin-text-muted-light dark:text-gray-400 hover:text-admin-text-main-light dark:hover:text-white'
+          ]"
+          @click="mobile && emit('close')"
+          :title="collapsed ? 'Pesanan' : null"
+        >
+          <span class="material-icons-outlined text-[20px]">receipt_long</span>
+          <span v-if="!collapsed" class="text-sm">Pesanan</span>
+        </RouterLink>
+
         <!-- Disabled Items -->
         <div class="flex items-center rounded-xl transition-all group cursor-not-allowed opacity-60 text-gray-400 dark:text-gray-500 hover:bg-white/20 dark:hover:bg-white/5"
           :class="collapsed ? 'justify-center px-3 py-3' : 'gap-3 px-4 py-3'">
