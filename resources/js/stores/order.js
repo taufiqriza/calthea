@@ -14,18 +14,18 @@ export const useOrderStore = defineStore('order', {
       state.items.reduce((sum, item) => sum + item.price * item.quantity, 0),
   },
   actions: {
-    addItem(menu) {
+    addItem(menu, quantity = 1) {
       if (this.success) this.success = false;
       const existing = this.items.find((item) => item.menu_id === menu.id);
       if (existing) {
-        existing.quantity += 1;
+        existing.quantity += quantity;
         return;
       }
       this.items.push({
         menu_id: menu.id,
         name: menu.name,
         price: Number(menu.price),
-        quantity: 1,
+        quantity,
       });
     },
     removeItem(menuId) {

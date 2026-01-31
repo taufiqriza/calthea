@@ -1,17 +1,7 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 
 const showGreeting = ref(false);
-const hasShown = ref(false);
-
-onMounted(() => {
-  setTimeout(() => {
-    if (!hasShown.value) {
-      showGreeting.value = true;
-      hasShown.value = true;
-    }
-  }, 3000);
-});
 
 const closeGreeting = () => {
   showGreeting.value = false;
@@ -23,7 +13,7 @@ const toggleGreeting = () => {
 </script>
 
 <template>
-  <div class="fixed z-50 lg:bottom-8 lg:right-8 bottom-24 right-4">
+  <div class="fixed z-50 lg:bottom-8 lg:right-8 bottom-28 right-4">
     <!-- Greeting Modal -->
     <Transition
       enter-active-class="transition ease-out duration-300"
@@ -67,15 +57,15 @@ const toggleGreeting = () => {
     <!-- Floating Button -->
     <button 
       @click="toggleGreeting"
-      class="group w-16 h-16 bg-gradient-to-br from-coffee-500 to-coffee-700 hover:from-coffee-600 hover:to-coffee-800 rounded-full flex items-center justify-center shadow-xl shadow-coffee-500/40 hover:shadow-2xl hover:shadow-coffee-500/50 transition-all duration-300 hover:scale-110"
+      class="group w-12 h-12 bg-gradient-to-br from-coffee-500 to-coffee-700 hover:from-coffee-600 hover:to-coffee-800 rounded-full flex items-center justify-center shadow-lg shadow-coffee-500/30 hover:shadow-xl transition-all duration-300"
     >
-      <i class="fab fa-whatsapp text-white text-3xl group-hover:scale-110 transition-transform"></i>
+      <i class="fab fa-whatsapp text-white text-xl group-hover:scale-110 transition-transform"></i>
     </button>
     
     <!-- Pulse Animation -->
-    <span class="absolute top-0 right-0 w-4 h-4">
+    <span class="absolute top-0 right-0 w-3 h-3">
       <span class="absolute inline-flex h-full w-full rounded-full bg-coffee-400 opacity-75 animate-ping"></span>
-      <span class="relative inline-flex rounded-full h-4 w-4 bg-coffee-500"></span>
+      <span class="relative inline-flex rounded-full h-3 w-3 bg-coffee-500"></span>
     </span>
   </div>
 </template>

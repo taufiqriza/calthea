@@ -9,18 +9,21 @@ import SectionHeader from '@components/shared/SectionHeader.vue';
 import MenuCard from '@components/home/MenuCard.vue';
 import Button from '@components/ui/Button.vue';
 import OrderModal from '@components/shared/OrderModal.vue';
+import QuickAddModal from '@components/shared/QuickAddModal.vue';
 import { useOrderStore } from '@/stores/order';
 
 const menuStore = useMenuStore();
 const orderStore = useOrderStore();
 const showOrderModal = ref(false);
+const showQuickAdd = ref(false);
+const selectedMenu = ref(null);
 
 const drinks = computed(() => menuStore.drinks);
 const foods = computed(() => menuStore.foods);
 
 const handleAddToCart = (item) => {
-  orderStore.addItem(item);
-  showOrderModal.value = true;
+  selectedMenu.value = item;
+  showQuickAdd.value = true;
 };
 
 // Scroll Animation Observer
@@ -358,12 +361,13 @@ onMounted(() => {
     <button
       v-if="orderStore.itemCount > 0"
       @click="showOrderModal = true"
-      class="fixed z-50 right-4 lg:right-8 bottom-28 lg:bottom-8 px-5 py-3 bg-coffee-600 hover:bg-coffee-700 text-white font-semibold rounded-full shadow-xl shadow-coffee-500/30 flex items-center gap-2"
+      class="fixed z-50 left-1/2 -translate-x-1/2 bottom-24 px-6 py-3 bg-coffee-600 hover:bg-coffee-700 text-white font-semibold rounded-full shadow-xl shadow-coffee-500/30 flex items-center gap-2"
     >
       <i class="fas fa-receipt"></i>
-      <span>Pesan ({{ orderStore.itemCount }})</span>
+      <span>Pesanan ({{ orderStore.itemCount }})</span>
     </button>
 
+    <QuickAddModal :open="showQuickAdd" :menu="selectedMenu" @close="showQuickAdd = false" />
     <OrderModal :open="showOrderModal" @close="showOrderModal = false" />
   </div>
 </template>
