@@ -18,6 +18,7 @@ const alertType = ref('info');
 const alertTitle = ref('');
 const alertMessage = ref('');
 const alertAutoClose = ref(false);
+const alertAutoCloseMs = ref(2000);
 
 const form = ref({
   customer_name: '',
@@ -39,11 +40,12 @@ const closeModal = () => {
   emit('close');
 };
 
-const triggerAlert = (type, title, message, autoClose = false) => {
+const triggerAlert = (type, title, message, autoClose = true, autoCloseMs = 2000) => {
   alertType.value = type;
   alertTitle.value = title;
   alertMessage.value = message;
   alertAutoClose.value = autoClose;
+  alertAutoCloseMs.value = autoCloseMs;
   alertKey.value += 1;
   alertOpen.value = true;
 };
@@ -52,18 +54,18 @@ const submitOrder = async () => {
   const name = form.value.customer_name.trim();
   const table = form.value.table_number.trim();
   if (!name || !table) {
-    triggerAlert('error', 'Lengkapi data', 'Nama dan nomor meja wajib diisi sebelum mengirim.');
+    triggerAlert('error', 'Lengkapi data', 'Nama dan nomor meja wajib diisi sebelum mengirim.', true, 2200);
     return;
   }
   form.value.customer_name = name;
   form.value.table_number = table;
   if (orderStore.items.length === 0) {
-    triggerAlert('error', 'Pesanan kosong', 'Silakan pilih menu terlebih dahulu.');
+    triggerAlert('error', 'Pesanan kosong', 'Silakan pilih menu terlebih dahulu.', true, 2200);
     return;
   }
   try {
     await orderStore.submit(form.value);
-    triggerAlert('success', 'Pesanan terkirim', 'Pesanan berhasil dikirim. Silakan pilih menu lain jika perlu.', true);
+    triggerAlert('success', 'Pesanan terkirim', 'Pesanan berhasil dikirim. Silakan pilih menu lain jika perlu.', true, 2000);
     form.value = {
       customer_name: '',
       table_number: '',
@@ -71,7 +73,7 @@ const submitOrder = async () => {
     };
   } catch (error) {
     const message = error?.response?.data?.message || 'Gagal mengirim pesanan. Coba lagi.';
-    triggerAlert('error', 'Gagal mengirim', message);
+    triggerAlert('error', 'Gagal mengirim', message, true, 2200);
   }
 };
 
@@ -235,6 +237,7 @@ watch(
       :title="alertTitle"
       :message="alertMessage"
       :auto-close="alertAutoClose"
+      :auto-close-ms="alertAutoCloseMs"
       @close="alertOpen = false"
     />
   </Teleport>

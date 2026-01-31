@@ -338,6 +338,8 @@ const handleDelete = async (menu) => {
       :type="alertType"
       :title="alertTitle"
       :message="alertMessage"
+      :auto-close="true"
+      :auto-close-ms="2200"
       @close="alertOpen = false"
     />
   </div>

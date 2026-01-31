@@ -114,6 +114,7 @@ watch(
       :title="alertTitle"
       :message="alertMessage"
       :auto-close="true"
+      :auto-close-ms="1800"
       @close="alertOpen = false"
     />
   </Teleport>

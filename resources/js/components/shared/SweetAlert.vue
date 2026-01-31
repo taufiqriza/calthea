@@ -33,14 +33,14 @@ const titleClass = computed(() => {
 });
 
 watch(
-  () => props.open,
-  (open) => {
-    if (!open) return;
-    if (props.autoClose) {
-      clearTimeout(timer);
+  () => [props.open, props.autoClose, props.autoCloseMs],
+  ([open, autoClose]) => {
+    clearTimeout(timer);
+    if (open && autoClose) {
       timer = setTimeout(() => emit('close'), props.autoCloseMs);
     }
-  }
+  },
+  { immediate: true }
 );
 
 onBeforeUnmount(() => {
