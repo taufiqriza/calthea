@@ -27,6 +27,7 @@ const formattedTotal = computed(() =>
 );
 
 const closeModal = () => {
+  if (orderStore.success) orderStore.success = false;
   emit('close');
 };
 
@@ -37,7 +38,6 @@ const submitOrder = async () => {
     table_number: '',
     notes: '',
   };
-  closeModal();
 };
 
 watch(
@@ -78,9 +78,24 @@ watch(
           </div>
 
           <div class="px-6 py-5 space-y-5 overflow-y-auto max-h-[70vh]">
+            <div v-if="orderStore.success" class="rounded-2xl border border-green-200 bg-green-50 p-4 text-green-800">
+              <div class="flex items-start gap-3">
+                <div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center">
+                  <i class="fas fa-check"></i>
+                </div>
+                <div class="text-sm">
+                  <p class="font-semibold">Pesanan berhasil dikirim!</p>
+                  <p class="text-xs text-green-700 mt-1">
+                    Silakan pilih menu lain dari daftar. Modal akan terbuka otomatis saat menambah.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <div v-if="orderStore.items.length === 0" class="text-center text-coffee-500">
               <i class="fas fa-cart-plus text-3xl mb-3"></i>
               <p>Belum ada menu yang dipilih.</p>
+              <p class="text-xs text-coffee-400 mt-1">Pilih menu di halaman, lalu lanjutkan di sini.</p>
             </div>
 
             <div v-else class="space-y-3">
@@ -167,14 +182,23 @@ watch(
           </div>
 
           <div class="px-6 py-4 border-t border-coffee-100">
-            <button
-              class="w-full py-3 bg-coffee-600 hover:bg-coffee-700 text-white font-semibold rounded-xl transition disabled:bg-coffee-300"
-              :disabled="orderStore.items.length === 0 || orderStore.submitting"
-              @click="submitOrder"
-            >
-              <span v-if="!orderStore.submitting">Kirim Pesanan</span>
-              <span v-else>Mengirim...</span>
-            </button>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <button
+                class="w-full py-3 bg-coffee-600 hover:bg-coffee-700 text-white font-semibold rounded-xl transition disabled:bg-coffee-300"
+                :disabled="orderStore.items.length === 0 || orderStore.submitting"
+                @click="submitOrder"
+              >
+                <span v-if="!orderStore.submitting">Kirim Pesanan</span>
+                <span v-else>Mengirim...</span>
+              </button>
+              <button
+                v-if="orderStore.success"
+                class="w-full py-3 border-2 border-coffee-200 text-coffee-700 font-semibold rounded-xl"
+                @click="closeModal"
+              >
+                Tutup
+              </button>
+            </div>
           </div>
         </div>
       </div>

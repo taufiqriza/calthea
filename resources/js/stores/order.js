@@ -15,6 +15,7 @@ export const useOrderStore = defineStore('order', {
   },
   actions: {
     addItem(menu) {
+      if (this.success) this.success = false;
       const existing = this.items.find((item) => item.menu_id === menu.id);
       if (existing) {
         existing.quantity += 1;
@@ -54,8 +55,9 @@ export const useOrderStore = defineStore('order', {
             quantity: item.quantity,
           })),
         });
+        this.items = [];
+        this.error = null;
         this.success = true;
-        this.clear();
         return response.data;
       } catch (error) {
         this.error = error?.response?.data?.message || 'Failed to submit order';

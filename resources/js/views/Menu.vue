@@ -54,6 +54,7 @@ onMounted(() => {
 
 const handleAddToCart = (item) => {
   orderStore.addItem(item);
+  showOrderModal.value = true;
 };
 </script>
 

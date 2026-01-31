@@ -20,6 +20,7 @@ const foods = computed(() => menuStore.foods);
 
 const handleAddToCart = (item) => {
   orderStore.addItem(item);
+  showOrderModal.value = true;
 };
 
 // Scroll Animation Observer
