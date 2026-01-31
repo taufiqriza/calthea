@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import SweetAlert from '@components/shared/SweetAlert.vue';
 
 const menus = ref([]);
 const loading = ref(true);
@@ -8,6 +9,11 @@ const searchTerm = ref('');
 const showModal = ref(false);
 const editingMenu = ref(null);
 const submitting = ref(false);
+const alertOpen = ref(false);
+const alertKey = ref(0);
+const alertType = ref('error');
+const alertTitle = ref('Gagal menyimpan');
+const alertMessage = ref('Terjadi kesalahan. Coba lagi.');
 
 const form = ref({
     name: '',
@@ -116,7 +122,10 @@ const handleSubmit = async () => {
         fetchMenus(); // Refresh list
     } catch (error) {
         console.error('Failed to save menu', error.response?.data || error);
-        alert('Failed to save menu. Check console for details.');
+        alertTitle.value = 'Gagal menyimpan menu';
+        alertMessage.value = error?.response?.data?.message || 'Periksa data dan coba lagi.';
+        alertKey.value += 1;
+        alertOpen.value = true;
     } finally {
         submitting.value = false;
     }
@@ -322,6 +331,15 @@ const handleDelete = async (menu) => {
             </div>
         </div>
     </Transition>
+
+    <SweetAlert
+      :key="alertKey"
+      :open="alertOpen"
+      :type="alertType"
+      :title="alertTitle"
+      :message="alertMessage"
+      @close="alertOpen = false"
+    />
   </div>
 </template>
 

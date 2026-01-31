@@ -184,7 +184,7 @@ const handleAddToCart = (item) => {
     <button
       v-if="orderStore.itemCount > 0"
       @click="showOrderModal = true"
-      class="fixed z-50 left-1/2 -translate-x-1/2 bottom-24 px-6 py-3 bg-coffee-600 hover:bg-coffee-700 text-white font-semibold rounded-full shadow-xl shadow-coffee-500/30 flex items-center gap-2"
+      class="fixed z-50 left-1/2 -translate-x-1/2 bottom-32 px-6 py-3 bg-coffee-600 hover:bg-coffee-700 text-white font-semibold rounded-full shadow-xl shadow-coffee-500/30 flex items-center gap-2"
     >
       <i class="fas fa-receipt"></i>
       <span>Pesanan ({{ orderStore.itemCount }})</span>

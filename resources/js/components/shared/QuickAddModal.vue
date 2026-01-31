@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { useOrderStore } from '@/stores/order';
+import SweetAlert from '@components/shared/SweetAlert.vue';
 
 const props = defineProps({
   open: { type: Boolean, default: false },
@@ -10,7 +11,10 @@ const props = defineProps({
 const emit = defineEmits(['close']);
 const orderStore = useOrderStore();
 const qty = ref(1);
-const success = ref(false);
+const alertOpen = ref(false);
+const alertKey = ref(0);
+const alertTitle = ref('Berhasil ditambahkan');
+const alertMessage = ref('Silakan pilih menu lain dari daftar.');
 
 const priceLabel = computed(() => {
   const price = Number(props.menu?.price || 0);
@@ -22,7 +26,7 @@ const priceLabel = computed(() => {
 });
 
 const closeModal = () => {
-  success.value = false;
+  alertOpen.value = false;
   qty.value = 1;
   emit('close');
 };
@@ -30,7 +34,9 @@ const closeModal = () => {
 const addToOrder = () => {
   if (!props.menu) return;
   orderStore.addItem(props.menu, qty.value);
-  success.value = true;
+  alertKey.value += 1;
+  alertOpen.value = true;
+  emit('close');
 };
 
 watch(
@@ -38,7 +44,7 @@ watch(
   (open) => {
     if (open) {
       qty.value = 1;
-      success.value = false;
+      alertOpen.value = false;
     }
   }
 );
@@ -81,11 +87,6 @@ watch(
                 </button>
               </div>
             </div>
-
-            <div v-if="success" class="rounded-2xl border border-green-200 bg-green-50 p-3 text-green-800">
-              <p class="text-sm font-semibold">Berhasil ditambahkan!</p>
-              <p class="text-xs text-green-700">Silakan pilih menu lain dari daftar.</p>
-            </div>
           </div>
 
           <div class="px-6 py-4 border-t border-coffee-100 flex gap-3">
@@ -105,5 +106,15 @@ watch(
         </div>
       </div>
     </Transition>
+
+    <SweetAlert
+      :key="alertKey"
+      :open="alertOpen"
+      type="success"
+      :title="alertTitle"
+      :message="alertMessage"
+      :auto-close="true"
+      @close="alertOpen = false"
+    />
   </Teleport>
 </template>

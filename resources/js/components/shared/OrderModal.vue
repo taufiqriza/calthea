@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { useOrderStore } from '@/stores/order';
+import SweetAlert from '@components/shared/SweetAlert.vue';
 
 const props = defineProps({
   open: {
@@ -11,6 +12,12 @@ const props = defineProps({
 
 const emit = defineEmits(['close']);
 const orderStore = useOrderStore();
+const alertOpen = ref(false);
+const alertKey = ref(0);
+const alertType = ref('info');
+const alertTitle = ref('');
+const alertMessage = ref('');
+const alertAutoClose = ref(false);
 
 const form = ref({
   customer_name: '',
@@ -28,16 +35,44 @@ const formattedTotal = computed(() =>
 
 const closeModal = () => {
   if (orderStore.success) orderStore.success = false;
+  alertOpen.value = false;
   emit('close');
 };
 
+const triggerAlert = (type, title, message, autoClose = false) => {
+  alertType.value = type;
+  alertTitle.value = title;
+  alertMessage.value = message;
+  alertAutoClose.value = autoClose;
+  alertKey.value += 1;
+  alertOpen.value = true;
+};
+
 const submitOrder = async () => {
-  await orderStore.submit(form.value);
-  form.value = {
-    customer_name: '',
-    table_number: '',
-    notes: '',
-  };
+  const name = form.value.customer_name.trim();
+  const table = form.value.table_number.trim();
+  if (!name || !table) {
+    triggerAlert('error', 'Lengkapi data', 'Nama dan nomor meja wajib diisi sebelum mengirim.');
+    return;
+  }
+  form.value.customer_name = name;
+  form.value.table_number = table;
+  if (orderStore.items.length === 0) {
+    triggerAlert('error', 'Pesanan kosong', 'Silakan pilih menu terlebih dahulu.');
+    return;
+  }
+  try {
+    await orderStore.submit(form.value);
+    triggerAlert('success', 'Pesanan terkirim', 'Pesanan berhasil dikirim. Silakan pilih menu lain jika perlu.', true);
+    form.value = {
+      customer_name: '',
+      table_number: '',
+      notes: '',
+    };
+  } catch (error) {
+    const message = error?.response?.data?.message || 'Gagal mengirim pesanan. Coba lagi.';
+    triggerAlert('error', 'Gagal mengirim', message);
+  }
 };
 
 watch(
@@ -45,6 +80,7 @@ watch(
   (open) => {
     if (open) {
       orderStore.error = null;
+      alertOpen.value = false;
     }
   }
 );
@@ -78,20 +114,6 @@ watch(
           </div>
 
           <div class="px-6 py-5 space-y-5 overflow-y-auto max-h-[70vh]">
-            <div v-if="orderStore.success" class="rounded-2xl border border-green-200 bg-green-50 p-4 text-green-800">
-              <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center">
-                  <i class="fas fa-check"></i>
-                </div>
-                <div class="text-sm">
-                  <p class="font-semibold">Pesanan berhasil dikirim!</p>
-                  <p class="text-xs text-green-700 mt-1">
-                    Silakan pilih menu lain dari daftar. Modal akan terbuka otomatis saat menambah.
-                  </p>
-                </div>
-              </div>
-            </div>
-
             <div v-if="orderStore.items.length === 0" class="text-center text-coffee-500">
               <i class="fas fa-cart-plus text-3xl mb-3"></i>
               <p>Belum ada menu yang dipilih.</p>
@@ -142,7 +164,9 @@ watch(
 
             <div class="grid sm:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-semibold text-coffee-800 mb-2">Nama</label>
+                <label class="block text-sm font-semibold text-coffee-800 mb-2">
+                  Nama <span class="text-red-500">*</span>
+                </label>
                 <input
                   v-model="form.customer_name"
                   type="text"
@@ -152,7 +176,9 @@ watch(
                 />
               </div>
               <div>
-                <label class="block text-sm font-semibold text-coffee-800 mb-2">Nomor Meja</label>
+                <label class="block text-sm font-semibold text-coffee-800 mb-2">
+                  Nomor Meja <span class="text-red-500">*</span>
+                </label>
                 <input
                   v-model="form.table_number"
                   type="text"
@@ -177,8 +203,6 @@ watch(
               <span class="text-sm font-semibold text-coffee-700">Total</span>
               <span class="text-lg font-bold text-coffee-800">{{ formattedTotal }}</span>
             </div>
-
-            <p v-if="orderStore.error" class="text-sm text-red-500">{{ orderStore.error }}</p>
           </div>
 
           <div class="px-6 py-4 border-t border-coffee-100">
@@ -203,5 +227,15 @@ watch(
         </div>
       </div>
     </Transition>
+
+    <SweetAlert
+      :key="alertKey"
+      :open="alertOpen"
+      :type="alertType"
+      :title="alertTitle"
+      :message="alertMessage"
+      :auto-close="alertAutoClose"
+      @close="alertOpen = false"
+    />
   </Teleport>
 </template>
