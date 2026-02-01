@@ -50,6 +50,7 @@ export const useOrderStore = defineStore('order', {
           customer_name: payload.customer_name,
           table_number: payload.table_number,
           notes: payload.notes || null,
+          payment_method: payload.payment_method,
           items: this.items.map((item) => ({
             menu_id: item.menu_id,
             quantity: item.quantity,

@@ -24,6 +24,7 @@ const form = ref({
   customer_name: '',
   table_number: '',
   notes: '',
+  payment_method: 'cash',
 });
 
 const formattedTotal = computed(() =>
@@ -57,6 +58,10 @@ const submitOrder = async () => {
     triggerAlert('error', 'Lengkapi data', 'Nama dan nomor meja wajib diisi sebelum mengirim.', true, 2200);
     return;
   }
+  if (!form.value.payment_method) {
+    triggerAlert('error', 'Pilih metode bayar', 'Silakan pilih pembayaran QRIS atau Cash.', true, 2200);
+    return;
+  }
   form.value.customer_name = name;
   form.value.table_number = table;
   if (orderStore.items.length === 0) {
@@ -70,6 +75,7 @@ const submitOrder = async () => {
       customer_name: '',
       table_number: '',
       notes: '',
+      payment_method: 'cash',
     };
   } catch (error) {
     const message = error?.response?.data?.message || 'Gagal mengirim pesanan. Coba lagi.';
@@ -199,6 +205,43 @@ watch(
                 class="w-full px-4 py-3 rounded-xl border-2 border-coffee-200 focus:border-coffee-500 focus:outline-none resize-none"
                 placeholder="Tambahan request..."
               ></textarea>
+            </div>
+
+            <div class="space-y-3">
+              <label class="block text-sm font-semibold text-coffee-800">
+                Metode Pembayaran <span class="text-red-500">*</span>
+              </label>
+              <div class="grid sm:grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  class="text-left rounded-2xl border-2 px-4 py-3 transition"
+                  :class="form.payment_method === 'qris'
+                    ? 'border-coffee-600 bg-coffee-50'
+                    : 'border-coffee-200 bg-white hover:border-coffee-400'"
+                  @click="form.payment_method = 'qris'"
+                >
+                  <p class="text-sm font-semibold text-coffee-800">QRIS</p>
+                  <p class="text-xs text-coffee-500">Bayar via scan QR</p>
+                </button>
+                <button
+                  type="button"
+                  class="text-left rounded-2xl border-2 px-4 py-3 transition"
+                  :class="form.payment_method === 'cash'
+                    ? 'border-coffee-600 bg-coffee-50'
+                    : 'border-coffee-200 bg-white hover:border-coffee-400'"
+                  @click="form.payment_method = 'cash'"
+                >
+                  <p class="text-sm font-semibold text-coffee-800">Cash di Kasir</p>
+                  <p class="text-xs text-coffee-500">Bayar langsung di kasir</p>
+                </button>
+              </div>
+              <div v-if="form.payment_method === 'qris'" class="rounded-2xl border border-coffee-100 bg-cream-50 p-4 text-center">
+                <img src="/storage/QRIS-SAMPLE.jpg" alt="QRIS Calthea" class="mx-auto h-40 w-40 object-contain rounded-xl bg-white p-2 shadow-sm">
+                <p class="text-xs text-coffee-600 mt-3">Scan QRIS dan tunjukkan bukti pembayaran ke kasir.</p>
+              </div>
+              <div v-else class="rounded-2xl border border-coffee-100 bg-cream-50 p-4">
+                <p class="text-xs text-coffee-600">Silakan bayar langsung di kasir saat pesanan siap.</p>
+              </div>
             </div>
 
             <div class="flex items-center justify-between bg-coffee-50 rounded-2xl px-4 py-3">

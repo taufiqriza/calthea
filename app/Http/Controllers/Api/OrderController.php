@@ -41,6 +41,7 @@ class OrderController extends Controller
             'items.*.menu_id' => 'required|exists:menus,id',
             'items.*.quantity' => 'required|integer|min:1|max:50',
             'notes' => 'nullable|string|max:500',
+            'payment_method' => 'required|in:qris,cash',
         ]);
 
         $menuIds = collect($validated['items'])->pluck('menu_id')->unique()->values();
@@ -84,6 +85,7 @@ class OrderController extends Controller
             'items' => $orderItems,
             'total' => $total,
             'notes' => $validated['notes'] ?? null,
+            'payment_method' => $validated['payment_method'],
             'status' => 'new',
         ]);
 

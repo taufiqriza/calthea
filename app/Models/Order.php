@@ -13,6 +13,7 @@ class Order extends Model
         'items',
         'total',
         'notes',
+        'payment_method',
         'status',
     ];
 

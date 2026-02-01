@@ -64,7 +64,8 @@ const buildQrPayload = (order) => {
   const items = (order.items || [])
     .map((item) => `${item.name} x${item.quantity}`)
     .join(', ');
-  return `Order ${order.order_code} | Nama ${order.customer_name} | Meja ${order.table_number} | Total ${Number(order.total || 0)} | Items ${items}`;
+  const payment = paymentLabel(order.payment_method);
+  return `Order ${order.order_code} | Nama ${order.customer_name} | Meja ${order.table_number} | Bayar ${payment} | Total ${Number(order.total || 0)} | Items ${items}`;
 };
 
 const getQrUrl = (payload, size = 180) =>
@@ -127,6 +128,10 @@ const printOrder = (order) => {
             <div>
               <div class="label">Meja</div>
               <div class="value">${order.table_number}</div>
+            </div>
+            <div>
+              <div class="label">Pembayaran</div>
+              <div class="value">${paymentLabel(order.payment_method)}</div>
             </div>
           </div>
           <table>
@@ -217,12 +222,27 @@ const statusLabel = (status) => {
   return map[status] || status;
 };
 
+const paymentLabel = (method) => {
+  const map = {
+    qris: 'QRIS',
+    cash: 'Cash',
+  };
+  return map[method] || 'Cash';
+};
+
 const statusClasses = (status) => {
   if (status === 'new') return 'bg-amber-100 text-amber-700';
   if (status === 'preparing') return 'bg-blue-100 text-blue-700';
   if (status === 'ready') return 'bg-emerald-100 text-emerald-700';
   if (status === 'completed') return 'bg-gray-200 text-gray-700';
   return 'bg-rose-100 text-rose-700';
+};
+
+const paymentClasses = (method) => {
+  if (method === 'qris') {
+    return 'bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-200';
+  }
+  return 'bg-slate-200 text-slate-700 dark:bg-white/10 dark:text-white';
 };
 
 const statusButtonClass = (status, current) => {
@@ -287,9 +307,14 @@ const statusButtonClass = (status, current) => {
             </p>
           </div>
 
-          <span class="px-3 py-1 rounded-full text-xs font-semibold" :class="statusClasses(order.status)">
-            {{ statusLabel(order.status) }}
-          </span>
+          <div class="flex flex-col sm:flex-row items-end gap-2">
+            <span class="px-3 py-1 rounded-full text-xs font-semibold" :class="statusClasses(order.status)">
+              {{ statusLabel(order.status) }}
+            </span>
+            <span class="px-3 py-1 rounded-full text-xs font-semibold" :class="paymentClasses(order.payment_method)">
+              {{ paymentLabel(order.payment_method) }}
+            </span>
+          </div>
         </div>
 
         <div class="relative mt-4 grid grid-cols-2 gap-3">
@@ -337,6 +362,12 @@ const statusButtonClass = (status, current) => {
             <div class="flex items-center justify-between text-sm text-coffee-700">
               <span>{{ selectedOrder?.customer_name }}</span>
               <span>Meja {{ selectedOrder?.table_number }}</span>
+            </div>
+            <div class="flex items-center justify-between text-xs text-coffee-500">
+              <span>{{ formatDateTime(selectedOrder?.created_at) }}</span>
+              <span class="rounded-full bg-coffee-100 px-3 py-1 text-[11px] font-semibold text-coffee-700">
+                Pembayaran: {{ paymentLabel(selectedOrder?.payment_method) }}
+              </span>
             </div>
             <div class="rounded-2xl bg-cream-50 p-4 space-y-2">
               <div
