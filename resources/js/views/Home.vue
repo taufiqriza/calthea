@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, computed, ref } from 'vue';
+import { onMounted, onBeforeUnmount, computed, ref } from 'vue';
 import { useMenuStore } from '@/stores/menu';
 import Navbar from '@components/layout/Navbar.vue';
 import Footer from '@components/layout/Footer.vue';
@@ -17,6 +17,79 @@ const orderStore = useOrderStore();
 const showOrderModal = ref(false);
 const showQuickAdd = ref(false);
 const selectedMenu = ref(null);
+const heroSlides = [
+  {
+    id: 1,
+    title: 'Bangunan Utama',
+    subtitle: 'Ikon Calthea Batu',
+    image: '/storage/galery/BACKGROUND-BANUGNAN-UTAMA.jpg',
+  },
+  {
+    id: 2,
+    title: 'Outdoor Rooftop',
+    subtitle: 'View alam terbuka',
+    image: '/storage/galery/OUTDOOR-ROOFTOP.jpg',
+  },
+  {
+    id: 3,
+    title: 'Gunung Panderman',
+    subtitle: 'Pemandangan lantai 2',
+    image: '/storage/galery/LANTAI-2-GUNUNG-PANDERMAN.jpg',
+  },
+];
+const activeHero = ref(0);
+let heroTimer = null;
+const ctaSlides = heroSlides;
+const activeCta = ref(0);
+let ctaTimer = null;
+const galleryPreview = [
+  '/storage/galery/INTERIOR.jpg',
+  '/storage/galery/OUTDOOR-LT1-KEBUNJERUK.jpg',
+  '/storage/galery/PEMANDANGAN-DEPAN.jpg',
+  '/storage/galery/MAKANAN-UTAMA.jpg',
+  '/storage/galery/TEMPAT-DUDUK.jpg',
+  '/storage/galery/INDOR-KASIR.jpg',
+];
+
+const startHeroTimer = () => {
+  if (heroSlides.length <= 1) return;
+  clearInterval(heroTimer);
+  heroTimer = setInterval(() => {
+    activeHero.value = (activeHero.value + 1) % heroSlides.length;
+  }, 6500);
+};
+
+const stopHeroTimer = () => {
+  clearInterval(heroTimer);
+};
+
+const setHeroSlide = (index) => {
+  activeHero.value = index;
+  startHeroTimer();
+};
+
+const nextHero = () => {
+  activeHero.value = (activeHero.value + 1) % heroSlides.length;
+  startHeroTimer();
+};
+
+const prevHero = () => {
+  activeHero.value = (activeHero.value - 1 + heroSlides.length) % heroSlides.length;
+  startHeroTimer();
+};
+
+
+const startCtaTimer = () => {
+  if (ctaSlides.length <= 1) return;
+  clearInterval(ctaTimer);
+  ctaTimer = setInterval(() => {
+    activeCta.value = (activeCta.value + 1) % ctaSlides.length;
+  }, 7000);
+};
+
+const stopCtaTimer = () => {
+  clearInterval(ctaTimer);
+};
 
 const drinks = computed(() => menuStore.drinks);
 const foods = computed(() => menuStore.foods);
@@ -31,6 +104,8 @@ onMounted(() => {
   if (!menuStore.items.length) {
     menuStore.fetch();
   }
+  startHeroTimer();
+  startCtaTimer();
 
   const observerOptions = {
     threshold: 0.1,
@@ -50,6 +125,11 @@ onMounted(() => {
     observer.observe(el);
   });
 });
+
+onBeforeUnmount(() => {
+  stopHeroTimer();
+  stopCtaTimer();
+});
 </script>
 
 <template>
@@ -58,114 +138,145 @@ onMounted(() => {
     
     <main class="main-content">
       <!-- Hero Section -->
-      <section id="beranda" class="relative min-h-screen flex items-center pt-16 lg:pt-0 overflow-hidden">
-        <!-- Background -->
-        <div class="absolute inset-0 bg-gradient-to-br from-cream-100 via-cream-50 to-beige-100"></div>
-        
-        <!-- Decorative Elements -->
-        <div class="absolute top-20 right-10 w-72 h-72 bg-coffee-200/30 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-20 left-10 w-96 h-96 bg-beige-300/30 rounded-full blur-3xl"></div>
-        
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-0">
-          <div class="grid lg:grid-cols-2 gap-8 lg:gap-20 items-center">
-            <!-- Content -->
-            <div class="text-center lg:text-left order-2 lg:order-1">
-              <div class="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-green-100 rounded-full mb-4 sm:mb-6">
-                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                <span class="text-green-700 text-xs sm:text-sm font-medium">Open Daily from 10 AM 🌿</span>
+      <section id="beranda" class="relative min-h-screen pt-16 lg:pt-0 overflow-hidden">
+        <!-- Background Slider -->
+        <div class="absolute inset-0">
+          <div
+            v-for="(slide, index) in heroSlides"
+            :key="slide.id"
+            class="absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-out"
+            :class="index === activeHero ? 'opacity-100 scale-100' : 'opacity-0 scale-105'"
+            :style="{ backgroundImage: `url(${slide.image})` }"
+          ></div>
+          <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80"></div>
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.15),transparent_55%)]"></div>
+        </div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16 lg:py-24">
+          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-12 items-center">
+            <div class="space-y-6">
+              <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-white/15 backdrop-blur rounded-full text-white text-xs sm:text-sm">
+                <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                <span>Open Daily from 10 AM</span>
               </div>
-              
-              <h1 class="font-serif text-3xl sm:text-4xl lg:text-6xl xl:text-7xl font-bold text-coffee-900 leading-tight mb-4 sm:mb-6">
-                Cafe & Nature
-                <span class="block text-coffee-600">Experience</span>
-                <span class="block text-2xl sm:text-3xl lg:text-5xl mt-2 font-normal text-coffee-500">di Kota Batu</span>
-              </h1>
-              
-              <p class="text-coffee-600 text-sm sm:text-base lg:text-xl leading-relaxed mb-6 sm:mb-8 max-w-lg mx-auto lg:mx-0">
-                Nikmati secangkir kopi premium dengan suasana alam yang menenangkan. Pengalaman cafe unik di lereng Arjuno, Kota Batu.
-              </p>
-              
-              <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
-                <Button variant="primary" icon="fa-coffee" href="#menu" size="sm" class="sm:!px-8 sm:!py-4 sm:!text-base">
-                  Lihat Menu
-                </Button>
-                <Button variant="secondary" icon="fa-calendar-check" to="/reservasi" size="sm" class="sm:!px-8 sm:!py-4 sm:!text-base">
-                  Reservasi Meja
-                </Button>
+
+              <div class="rounded-3xl border border-white/15 bg-black/35 backdrop-blur-xl p-6 sm:p-8 text-white shadow-2xl shadow-black/30">
+                <p class="text-[10px] uppercase tracking-[0.4em] text-white/60">Calthea Cafe & Nature</p>
+                <h1 class="font-serif text-3xl sm:text-4xl lg:text-6xl font-bold leading-tight mt-4">
+                  Cafe & Nature
+                  <span class="block text-white/80">Experience</span>
+                  <span class="block text-xl sm:text-2xl lg:text-4xl mt-2 font-normal text-white/70">di Kota Batu</span>
+                </h1>
+                <p class="text-white/80 text-sm sm:text-base lg:text-lg leading-relaxed mt-4">
+                  Nikmati secangkir kopi premium dengan suasana alam yang menenangkan. Pengalaman cafe unik di lereng Arjuno, Kota Batu.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-3 mt-6">
+                  <Button
+                    variant="primary"
+                    icon="fa-coffee"
+                    href="#menu"
+                    size="sm"
+                    class="!bg-white/95 !text-coffee-900 hover:!bg-white"
+                  >
+                    Lihat Menu
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    icon="fa-calendar-check"
+                    to="/reservasi"
+                    size="sm"
+                    class="!from-amber-400 !to-coffee-600 !text-white hover:!from-amber-500 hover:!to-coffee-700"
+                  >
+                    Reservasi Meja
+                  </Button>
+                </div>
+
+                <div class="mt-6 grid grid-cols-3 gap-3 text-center">
+                  <div class="rounded-2xl bg-white/10 border border-white/15 px-3 py-2">
+                    <p class="text-lg font-semibold">460+</p>
+                    <p class="text-[11px] text-white/70">Followers</p>
+                  </div>
+                  <div class="rounded-2xl bg-white/10 border border-white/15 px-3 py-2">
+                    <p class="text-lg font-semibold">4.9</p>
+                    <p class="text-[11px] text-white/70">Rating</p>
+                  </div>
+                  <div class="rounded-2xl bg-white/10 border border-white/15 px-3 py-2">
+                    <p class="text-lg font-semibold">10 AM</p>
+                    <p class="text-[11px] text-white/70">Open</p>
+                  </div>
+                </div>
               </div>
-              
-              <!-- Stats -->
-              <div class="flex items-center justify-center lg:justify-start gap-4 sm:gap-8 mt-8 sm:mt-12 pt-6 sm:pt-8 border-t border-coffee-200">
-                <div class="text-center">
-                  <div class="font-serif text-2xl sm:text-3xl font-bold text-coffee-800">460+</div>
-                  <div class="text-coffee-500 text-xs sm:text-sm">Followers</div>
+
+              <div class="flex items-center justify-between gap-4 text-white/70">
+                <div class="flex items-center gap-2">
+                  <button
+                    v-for="(slide, index) in heroSlides"
+                    :key="slide.id"
+                    @click="setHeroSlide(index)"
+                    class="h-2.5 rounded-full transition-all"
+                    :class="index === activeHero ? 'w-8 bg-white' : 'w-2.5 bg-white/40 hover:bg-white/70'"
+                    aria-label="Pindah slide"
+                  ></button>
                 </div>
-                <div class="w-px h-10 sm:h-12 bg-coffee-200"></div>
-                <div class="text-center">
-                  <a href="https://www.instagram.com/caltheabatu" target="_blank" class="flex items-center gap-1 text-pink-600 hover:text-pink-700">
-                    <i class="fab fa-instagram text-xl sm:text-2xl"></i>
-                  </a>
-                  <div class="text-coffee-500 text-xs sm:text-sm">@caltheabatu</div>
-                </div>
-                <div class="w-px h-10 sm:h-12 bg-coffee-200"></div>
-                <div class="text-center">
-                  <a href="https://maps.app.goo.gl/4hWQprUNQM48X8rG6" target="_blank" class="text-coffee-600 hover:text-coffee-800">
-                    <i class="fas fa-map-marker-alt text-xl sm:text-2xl"></i>
-                  </a>
-                  <div class="text-coffee-500 text-xs sm:text-sm">Kota Batu</div>
+                <div class="text-xs">
+                  {{ heroSlides[activeHero].title }} · {{ heroSlides[activeHero].subtitle }}
                 </div>
               </div>
             </div>
-            
-            <!-- Image -->
-            <div class="order-1 lg:order-2 relative">
-              <div class="relative">
-                <div class="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-[500px] lg:h-[500px] mx-auto">
-                  <div class="absolute inset-0 bg-gradient-to-br from-coffee-200 to-coffee-300 rounded-full animate-float"></div>
-                  <div class="absolute inset-4 bg-white rounded-full flex items-center justify-center overflow-hidden shadow-inner p-3 sm:p-4 lg:p-6">
-                    <img 
-                      src="/images/logo-calthea.jpg" 
-                      alt="Calthea" 
-                      class="w-full h-full object-contain"
+
+            <div class="hidden lg:block">
+              <div class="rounded-3xl border border-white/15 bg-white/10 backdrop-blur-xl p-5 text-white shadow-2xl shadow-black/30">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-[10px] uppercase tracking-[0.3em] text-white/60">Gallery Slides</p>
+                    <p class="text-base font-semibold">Highlight View</p>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <button
+                      class="h-9 w-9 rounded-full bg-white/15 border border-white/20 hover:bg-white/30 transition"
+                      @click="prevHero"
+                      aria-label="Slide sebelumnya"
                     >
+                      <i class="fas fa-chevron-left text-sm"></i>
+                    </button>
+                    <button
+                      class="h-9 w-9 rounded-full bg-white/15 border border-white/20 hover:bg-white/30 transition"
+                      @click="nextHero"
+                      aria-label="Slide berikutnya"
+                    >
+                      <i class="fas fa-chevron-right text-sm"></i>
+                    </button>
                   </div>
-                  
-                  <!-- Floating Badge 1 -->
-                  <div class="absolute -left-2 sm:-left-4 top-1/4 bg-white rounded-xl sm:rounded-2xl p-2 sm:p-4 shadow-xl shadow-coffee-200/50 animate-float" style="animation-delay: 1s;">
-                    <div class="flex items-center gap-2 sm:gap-3">
-                      <div class="w-8 h-8 sm:w-12 sm:h-12 bg-coffee-100 rounded-lg sm:rounded-xl flex items-center justify-center">
-                        <i class="fas fa-leaf text-coffee-600 text-sm sm:text-xl"></i>
-                      </div>
-                      <div>
-                        <div class="font-semibold text-coffee-800 text-sm sm:text-base">100%</div>
-                        <div class="text-coffee-500 text-xs">Organik</div>
-                      </div>
+                </div>
+                <div class="mt-4 space-y-3">
+                  <button
+                    v-for="(slide, index) in heroSlides"
+                    :key="slide.id"
+                    @click="setHeroSlide(index)"
+                    class="w-full flex items-center gap-4 rounded-2xl border border-white/10 bg-white/10 p-3 hover:bg-white/20 transition"
+                    :class="index === activeHero ? 'ring-1 ring-white/60' : ''"
+                  >
+                    <div
+                      class="h-14 w-14 rounded-xl bg-cover bg-center"
+                      :style="{ backgroundImage: `url(${slide.image})` }"
+                    ></div>
+                    <div class="text-left">
+                      <p class="text-sm font-semibold">{{ slide.title }}</p>
+                      <p class="text-xs text-white/60">{{ slide.subtitle }}</p>
                     </div>
-                  </div>
-                  
-                  <!-- Floating Badge 2 -->
-                  <div class="absolute -right-2 sm:-right-4 bottom-1/4 bg-white rounded-xl sm:rounded-2xl p-2 sm:p-4 shadow-xl shadow-coffee-200/50 animate-float" style="animation-delay: 2s;">
-                    <div class="flex items-center gap-2 sm:gap-3">
-                      <div class="w-8 h-8 sm:w-12 sm:h-12 bg-yellow-100 rounded-lg sm:rounded-xl flex items-center justify-center">
-                        <i class="fas fa-award text-yellow-600 text-sm sm:text-xl"></i>
-                      </div>
-                      <div>
-                        <div class="font-semibold text-coffee-800 text-sm sm:text-base">Best</div>
-                        <div class="text-coffee-500 text-xs">Quality</div>
-                      </div>
-                    </div>
-                  </div>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        
+
         <!-- Scroll Indicator -->
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2 text-coffee-400">
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2 text-white/60">
           <span class="text-sm">Scroll</span>
-          <div class="w-6 h-10 border-2 border-coffee-300 rounded-full flex justify-center pt-2">
-            <div class="w-1.5 h-3 bg-coffee-400 rounded-full animate-bounce"></div>
+          <div class="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center pt-2">
+            <div class="w-1.5 h-3 bg-white/70 rounded-full animate-bounce"></div>
           </div>
         </div>
       </section>
@@ -234,6 +345,42 @@ onMounted(() => {
               <i class="fab fa-instagram"></i>
               Lihat Menu Lengkap di Instagram
             </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Gallery Preview Section -->
+      <section id="galeri-preview" class="scroll-animate py-20 lg:py-28 bg-cream-50 relative overflow-hidden">
+        <div class="absolute -top-20 right-0 h-40 w-40 rounded-full bg-amber-100/60 blur-[70px]"></div>
+        <div class="absolute bottom-0 left-0 h-48 w-48 rounded-full bg-coffee-100/60 blur-[80px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative">
+          <SectionHeader
+            badge="Galeri"
+            title="Sekilas Suasana Calthea"
+            subtitle="Lihat beberapa sudut favorit sebelum menjelajahi galeri lengkap."
+          />
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+            <div
+              v-for="(image, index) in galleryPreview"
+              :key="`${image}-${index}`"
+              class="group relative overflow-hidden rounded-2xl bg-white shadow-sm"
+            >
+              <img :src="image" alt="Galeri Calthea" loading="lazy" class="w-full h-32 sm:h-40 object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            </div>
+          </div>
+
+          <div class="text-center mt-8">
+            <Button
+              variant="outline"
+              icon="fa-images"
+              to="/galeri"
+              size="sm"
+              class="!border-coffee-300 !text-coffee-700 hover:!border-coffee-500"
+            >
+              Lihat Galeri Lengkap
+            </Button>
           </div>
         </div>
       </section>
@@ -312,41 +459,62 @@ onMounted(() => {
       </section>
 
       <!-- Reservation CTA Section -->
-      <section id="reservasi" class="scroll-animate py-20 lg:py-32 bg-gradient-to-br from-coffee-100 via-cream-100 to-beige-100 relative overflow-hidden">
-        <div class="absolute top-10 left-10 w-32 h-32 bg-coffee-200/50 rounded-full blur-2xl"></div>
-        <div class="absolute bottom-10 right-10 w-48 h-48 bg-beige-300/50 rounded-full blur-3xl"></div>
+      <section id="reservasi" class="scroll-animate py-20 lg:py-32 relative overflow-hidden">
+        <div class="absolute inset-0">
+          <div
+            v-for="(slide, index) in ctaSlides"
+            :key="slide.id"
+            class="absolute inset-0 bg-cover bg-center transition-all duration-1000 ease-out"
+            :class="index === activeCta ? 'opacity-100 scale-100' : 'opacity-0 scale-105'"
+            :style="{ backgroundImage: `url(${slide.image})` }"
+          ></div>
+          <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80"></div>
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.15),transparent_55%)]"></div>
+        </div>
         
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center relative">
-          <span class="inline-block px-4 py-2 bg-coffee-600 text-white text-sm font-medium rounded-full mb-4">Reservasi Meja</span>
-          <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-coffee-900 mb-6">
+        <div class="relative max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <span class="inline-block px-4 py-2 bg-white/15 text-white text-sm font-medium rounded-full mb-4 backdrop-blur">Reservasi Meja</span>
+          <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
             Siap Untuk Pengalaman<br>
-            <span class="text-coffee-600">Kopi Terbaik?</span>
+            <span class="text-white/80">Kopi Terbaik?</span>
           </h2>
-          <p class="text-coffee-600 text-lg mb-10 max-w-2xl mx-auto">
+          <p class="text-white/80 text-lg mb-10 max-w-2xl mx-auto">
             Reservasi meja Anda sekarang dan nikmati suasana café yang nyaman bersama kopi premium kami.
           </p>
           
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="primary" size="lg" icon="fa-calendar-check" to="/reservasi">
+            <Button
+              variant="primary"
+              size="sm"
+              icon="fa-calendar-check"
+              to="/reservasi"
+              class="!bg-white !text-coffee-900 !px-7 !py-3 !text-sm hover:!bg-white/90"
+            >
               Reservasi Sekarang
             </Button>
-            <Button variant="outline" size="lg" icon="fa-map-marker-alt" href="https://maps.app.goo.gl/4hWQprUNQM48X8rG6">
+            <Button
+              variant="outline"
+              size="sm"
+              icon="fa-map-marker-alt"
+              href="https://maps.app.goo.gl/4hWQprUNQM48X8rG6"
+              class="!border-white/70 !text-white !bg-white/15 !px-7 !py-3 !text-sm hover:!border-white hover:!bg-white/25"
+            >
               Lihat Lokasi
             </Button>
           </div>
           
           <!-- Trust Badges -->
-          <div class="flex flex-wrap items-center justify-center gap-8 mt-12 pt-8 border-t border-coffee-200">
-            <div class="flex items-center gap-2 text-coffee-500">
-              <i class="fas fa-shield-alt text-coffee-600"></i>
+          <div class="flex flex-wrap items-center justify-center gap-8 mt-12 pt-8 border-t border-white/20">
+            <div class="flex items-center gap-2 text-white/70">
+              <i class="fas fa-shield-alt text-white/80"></i>
               <span class="text-sm">Pembayaran Aman</span>
             </div>
-            <div class="flex items-center gap-2 text-coffee-500">
-              <i class="fas fa-clock text-coffee-600"></i>
+            <div class="flex items-center gap-2 text-white/70">
+              <i class="fas fa-clock text-white/80"></i>
               <span class="text-sm">Respon Cepat</span>
             </div>
-            <div class="flex items-center gap-2 text-coffee-500">
-              <i class="fas fa-heart text-coffee-600"></i>
+            <div class="flex items-center gap-2 text-white/70">
+              <i class="fas fa-heart text-white/80"></i>
               <span class="text-sm">50K+ Pelanggan Puas</span>
             </div>
           </div>
@@ -424,4 +592,13 @@ onMounted(() => {
 .scroll-animate.animate-in .grid > *:nth-child(6) { transition-delay: 0.6s; }
 .scroll-animate.animate-in .grid > *:nth-child(7) { transition-delay: 0.7s; }
 .scroll-animate.animate-in .grid > *:nth-child(8) { transition-delay: 0.8s; }
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 </style>

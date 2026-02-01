@@ -11,25 +11,53 @@ const selectedImage = ref(null);
 const categories = [
   { id: 'all', name: 'Semua', icon: 'fa-th' },
   { id: 'cafe', name: 'Cafe', icon: 'fa-store' },
+  { id: 'interior', name: 'Interior', icon: 'fa-chair' },
+  { id: 'outdoor', name: 'Outdoor', icon: 'fa-tree' },
+  { id: 'view', name: 'View', icon: 'fa-mountain' },
   { id: 'menu', name: 'Menu', icon: 'fa-utensils' },
-  { id: 'nature', name: 'Nature', icon: 'fa-leaf' },
-  { id: 'events', name: 'Events', icon: 'fa-calendar' },
 ];
 
-const images = [
-  { id: 1, category: 'cafe', title: 'Interior Cafe', height: 'h-64' },
-  { id: 2, category: 'menu', title: 'Kopi Susu Calthea', height: 'h-80' },
-  { id: 3, category: 'nature', title: 'View Gunung', height: 'h-72' },
-  { id: 4, category: 'cafe', title: 'Outdoor Seating', height: 'h-96' },
-  { id: 5, category: 'menu', title: 'Matcha Latte', height: 'h-64' },
-  { id: 6, category: 'events', title: 'Live Music', height: 'h-80' },
-  { id: 7, category: 'nature', title: 'Sunrise View', height: 'h-72' },
-  { id: 8, category: 'menu', title: 'Nasgor Calthea', height: 'h-64' },
-  { id: 9, category: 'cafe', title: 'Counter Area', height: 'h-80' },
-  { id: 10, category: 'menu', title: 'Dessert Platter', height: 'h-96' },
-  { id: 11, category: 'nature', title: 'Garden Area', height: 'h-72' },
-  { id: 12, category: 'events', title: 'Workshop', height: 'h-64' },
+const galleryFiles = [
+  'BACKGROUND-BANUGNAN-UTAMA.jpg',
+  'BANGUNAN-UTAMA-DEPAN.jpg',
+  'GALERY-SUM.jpg',
+  'INDOR-KASIR.jpg',
+  'INTERIOR-2.jpg',
+  'INTERIOR-3.jpg',
+  'INTERIOR.jpg',
+  'INTEROR-2.jpg',
+  'JALAN-JALAN-KEBUN-JERUK.jpg',
+  'LANTAI-2-GUNUNG-PANDERMAN.jpg',
+  'MAKANAN-UTAMA.jpg',
+  'OUTDOOR-LT1-KEBUNJERUK.jpg',
+  'OUTDOOR-ROOFTOP.jpg',
+  'PEMANDANGAN-DEPAN.jpg',
+  'TEMPAT-DUDUK.jpg',
 ];
+
+const formatTitle = (filename) =>
+  filename
+    .replace(/\.[^/.]+$/, '')
+    .replace(/[-_]+/g, ' ')
+    .toLowerCase()
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+
+const detectCategory = (filename) => {
+  const name = filename.toLowerCase();
+  if (name.includes('makanan')) return 'menu';
+  if (name.includes('outdoor') || name.includes('kebun') || name.includes('rooftop')) return 'outdoor';
+  if (name.includes('pemandangan') || name.includes('gunung')) return 'view';
+  if (name.includes('interior') || name.includes('indor') || name.includes('interor') || name.includes('kasir') || name.includes('tempat')) return 'interior';
+  if (name.includes('bangunan') || name.includes('background')) return 'cafe';
+  return 'cafe';
+};
+
+const images = galleryFiles.map((file, index) => ({
+  id: index + 1,
+  category: detectCategory(file),
+  title: formatTitle(file),
+  src: `/storage/galery/${file}`,
+}));
 
 const filteredImages = ref(images);
 
@@ -103,21 +131,12 @@ const closeLightbox = () => {
               @click="openLightbox(image)"
               class="break-inside-avoid group cursor-pointer"
             >
-              <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-coffee-100 to-coffee-200 hover:shadow-2xl hover:shadow-coffee-300/50 transition-all duration-500 hover:-translate-y-1">
-                <!-- Placeholder Image -->
-                <div :class="`${image.height} flex items-center justify-center`">
-                  <div class="text-center p-6">
-                    <i class="fas fa-image text-6xl text-coffee-400 mb-4 group-hover:scale-110 transition-transform"></i>
-                    <p class="font-serif text-lg font-semibold text-coffee-800">{{ image.title }}</p>
-                    <p class="text-sm text-coffee-500 mt-2">{{ categories.find(c => c.id === image.category)?.name }}</p>
-                  </div>
-                </div>
-                
-                <!-- Overlay on Hover -->
-                <div class="absolute inset-0 bg-gradient-to-t from-coffee-900/80 via-coffee-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+              <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-coffee-100 to-coffee-200 hover:shadow-2xl hover:shadow-coffee-300/40 transition-all duration-500 hover:-translate-y-1">
+                <img :src="image.src" :alt="image.title" loading="lazy" class="w-full h-auto object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-coffee-900/70 via-coffee-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
                   <div class="text-white">
-                    <p class="font-serif text-xl font-bold mb-1">{{ image.title }}</p>
-                    <p class="text-sm text-coffee-200">Klik untuk memperbesar</p>
+                    <p class="font-serif text-lg font-bold mb-1">{{ image.title }}</p>
+                    <p class="text-xs text-coffee-200">{{ categories.find(c => c.id === image.category)?.name }}</p>
                   </div>
                 </div>
               </div>
@@ -174,19 +193,18 @@ const closeLightbox = () => {
           <i class="fas fa-times text-xl"></i>
         </button>
         
-        <div @click.stop class="max-w-4xl w-full">
-          <div class="bg-gradient-to-br from-coffee-200 to-coffee-300 rounded-3xl p-8 lg:p-12">
-            <div class="aspect-video flex items-center justify-center mb-6">
-              <div class="text-center">
-                <i class="fas fa-image text-8xl text-coffee-600 mb-6"></i>
-                <p class="font-serif text-3xl font-bold text-coffee-900">{{ selectedImage.title }}</p>
-                <p class="text-coffee-600 mt-2">{{ categories.find(c => c.id === selectedImage.category)?.name }}</p>
-              </div>
+        <div @click.stop class="max-w-5xl w-full">
+          <div class="bg-white rounded-3xl p-4 sm:p-6 lg:p-8">
+            <div class="rounded-2xl overflow-hidden">
+              <img :src="selectedImage.src" :alt="selectedImage.title" class="w-full h-auto object-cover">
             </div>
-            <p class="text-center text-coffee-700">
-              <i class="fas fa-info-circle mr-2"></i>
-              Placeholder image - Upload foto asli untuk tampilan yang lebih baik
-            </p>
+            <div class="mt-4 flex items-center justify-between">
+              <div>
+                <p class="font-serif text-2xl font-bold text-coffee-900">{{ selectedImage.title }}</p>
+                <p class="text-coffee-600 text-sm">{{ categories.find(c => c.id === selectedImage.category)?.name }}</p>
+              </div>
+              <span class="px-3 py-1 rounded-full text-xs bg-coffee-100 text-coffee-700">Galeri Calthea</span>
+            </div>
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ReservationController;
 use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\GoogleReviewController;
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,7 @@ Route::get('/menu/{id}', [MenuController::class, 'show']);
 // Review endpoints
 Route::get('/reviews', [ReviewController::class, 'index']);
 Route::post('/reviews', [ReviewController::class, 'store']);
+Route::get('/google-reviews', [GoogleReviewController::class, 'index']);
 
 // Reservation endpoints
 Route::post('/reservations', [ReservationController::class, 'store']);
