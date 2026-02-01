@@ -249,7 +249,7 @@ const handleDelete = async (menu) => {
 
     <!-- Modal Form -->
     <Transition name="fade">
-        <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div v-if="showModal" class="fixed inset-0 z-[70] flex items-center justify-center p-4">
             <div class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" @click="showModal = false"></div>
             
             <div class="bg-[#FDFBF9] dark:bg-[#1C1917] w-full max-w-2xl rounded-2xl shadow-2xl relative z-10 overflow-hidden flex flex-col max-h-[90vh] border border-white/40 dark:border-white/10">

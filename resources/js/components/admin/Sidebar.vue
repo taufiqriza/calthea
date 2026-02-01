@@ -90,41 +90,6 @@ const handleLogout = async () => {
           <span v-if="!collapsed" class="text-sm">Pesanan</span>
         </RouterLink>
 
-        <!-- Disabled Items -->
-        <div class="flex items-center rounded-xl transition-all group cursor-not-allowed opacity-60 text-gray-400 dark:text-gray-500 hover:bg-white/20 dark:hover:bg-white/5"
-          :class="collapsed ? 'justify-center px-3 py-3' : 'gap-3 px-4 py-3'">
-          <span class="material-icons-outlined text-[20px]">storefront</span>
-          <span v-if="!collapsed" class="font-medium text-sm">Shopping</span>
-          <span v-if="!collapsed" class="ml-auto text-[10px] bg-gray-200 dark:bg-white/10 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full font-bold">N/A</span>
-        </div>
-
-        <div class="flex items-center rounded-xl transition-all group cursor-not-allowed opacity-60 text-gray-400 dark:text-gray-500 hover:bg-white/20 dark:hover:bg-white/5"
-          :class="collapsed ? 'justify-center px-3 py-3' : 'gap-3 px-4 py-3'">
-          <span class="material-icons-outlined text-[20px]">assignment</span>
-          <span v-if="!collapsed" class="font-medium text-sm">Order List</span>
-          <span v-if="!collapsed" class="ml-auto text-[10px] bg-gray-200 dark:bg-white/10 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full font-bold">N/A</span>
-        </div>
-
-        <div class="flex items-center rounded-xl transition-all group cursor-not-allowed opacity-60 text-gray-400 dark:text-gray-500 hover:bg-white/20 dark:hover:bg-white/5"
-          :class="collapsed ? 'justify-center px-3 py-3' : 'gap-3 px-4 py-3'">
-          <span class="material-icons-outlined text-[20px]">favorite_border</span>
-          <span v-if="!collapsed" class="font-medium text-sm">Favorite</span>
-          <span v-if="!collapsed" class="ml-auto text-[10px] bg-gray-200 dark:bg-white/10 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full font-bold">N/A</span>
-        </div>
-
-        <div class="flex items-center rounded-xl transition-all group cursor-not-allowed opacity-60 text-gray-400 dark:text-gray-500 hover:bg-white/20 dark:hover:bg-white/5"
-          :class="collapsed ? 'justify-center px-3 py-3' : 'gap-3 px-4 py-3'">
-          <span class="material-icons-outlined text-[20px]">account_balance_wallet</span>
-          <span v-if="!collapsed" class="font-medium text-sm">Payment</span>
-          <span v-if="!collapsed" class="ml-auto text-[10px] bg-gray-200 dark:bg-white/10 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full font-bold">N/A</span>
-        </div>
-
-        <div class="flex items-center rounded-xl transition-all group cursor-not-allowed opacity-60 text-gray-400 dark:text-gray-500 hover:bg-white/20 dark:hover:bg-white/5"
-          :class="collapsed ? 'justify-center px-3 py-3' : 'gap-3 px-4 py-3'">
-          <span class="material-icons-outlined text-[20px]">settings</span>
-          <span v-if="!collapsed" class="font-medium text-sm">Settings</span>
-          <span v-if="!collapsed" class="ml-auto text-[10px] bg-gray-200 dark:bg-white/10 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full font-bold">N/A</span>
-        </div>
       </nav>
     </div>
     

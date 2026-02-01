@@ -44,49 +44,166 @@ const updateStatus = async (order, status) => {
   }
 };
 
-const printOrder = (order) => {
-  const printWindow = window.open('', '_blank', 'width=480,height=720');
-  if (!printWindow) return;
+const formatCurrency = (value) =>
+  new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    maximumFractionDigits: 0,
+  }).format(Number(value || 0));
 
+const formatDateTime = (value) => {
+  if (!value) return '-';
+  return new Intl.DateTimeFormat('id-ID', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  }).format(new Date(value));
+};
+
+const buildQrPayload = (order) => {
+  if (!order) return '';
+  const items = (order.items || [])
+    .map((item) => `${item.name} x${item.quantity}`)
+    .join(', ');
+  return `Order ${order.order_code} | Nama ${order.customer_name} | Meja ${order.table_number} | Total ${Number(order.total || 0)} | Items ${items}`;
+};
+
+const getQrUrl = (payload, size = 180) =>
+  `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(payload)}`;
+
+const printOrder = (order) => {
+  if (!order) return;
+  const qrPayload = buildQrPayload(order);
+  const qrUrl = getQrUrl(qrPayload, 200);
   const itemsHtml = order.items
     .map(
       (item) =>
-        `<tr><td>${item.name}</td><td style="text-align:center;">${item.quantity}</td><td style="text-align:right;">${item.subtotal.toLocaleString('id-ID')}</td></tr>`
+        `<tr>
+          <td>${item.name}</td>
+          <td style="text-align:center;">${item.quantity}</td>
+          <td style="text-align:right;">${formatCurrency(item.price)}</td>
+          <td style="text-align:right;">${formatCurrency(item.subtotal)}</td>
+        </tr>`
     )
     .join('');
 
-  printWindow.document.write(`
+  const html = `
+    <!doctype html>
     <html>
       <head>
-        <title>Kitchen Order</title>
+        <title>Calthea Receipt</title>
         <style>
           body { font-family: Arial, sans-serif; margin: 24px; color: #3f2e25; }
-          h2 { margin: 0 0 8px; }
+          h2 { margin: 0 0 4px; }
           .meta { font-size: 12px; color: #7c6b5f; margin-bottom: 16px; }
-          table { width: 100%; border-collapse: collapse; font-size: 12px; }
+          .receipt { border: 1px solid #eadfd6; border-radius: 12px; padding: 16px; }
+          .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+          .label { font-size: 11px; color: #7c6b5f; text-transform: uppercase; letter-spacing: 0.08em; }
+          .value { font-size: 13px; font-weight: 600; margin-top: 4px; }
+          table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 12px; }
           th, td { padding: 6px 0; border-bottom: 1px dashed #e4d7cc; }
-          .barcode { margin: 20px 0; height: 56px; background: repeating-linear-gradient(90deg, #3f2e25, #3f2e25 2px, transparent 2px, transparent 4px); border-radius: 6px; }
-          .total { text-align: right; font-weight: bold; margin-top: 12px; }
+          th { text-align: left; font-size: 11px; color: #7c6b5f; }
+          .total { text-align: right; font-weight: bold; margin-top: 12px; font-size: 13px; }
+          .qr { display: flex; justify-content: center; margin: 16px 0 6px; }
+          .note { font-size: 12px; color: #5f4a3e; margin-top: 10px; }
         </style>
       </head>
       <body>
-        <h2>Calthea Kitchen</h2>
-        <div class="meta">Order: ${order.order_code} · Meja ${order.table_number} · ${order.customer_name}</div>
-        <div class="barcode"></div>
-        <table>
-          <thead>
-            <tr><th align="left">Item</th><th align="center">Qty</th><th align="right">Subtotal</th></tr>
-          </thead>
-          <tbody>${itemsHtml}</tbody>
-        </table>
-        <div class="total">Total: Rp ${Number(order.total).toLocaleString('id-ID')}</div>
+        <h2>Calthea Receipt</h2>
+        <div class="meta">${formatDateTime(order.created_at)}</div>
+        <div class="receipt">
+          <div class="grid">
+            <div>
+              <div class="label">Order</div>
+              <div class="value">${order.order_code}</div>
+            </div>
+            <div>
+              <div class="label">Status</div>
+              <div class="value">${statusLabel(order.status)}</div>
+            </div>
+            <div>
+              <div class="label">Nama</div>
+              <div class="value">${order.customer_name}</div>
+            </div>
+            <div>
+              <div class="label">Meja</div>
+              <div class="value">${order.table_number}</div>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th style="text-align:center;">Qty</th>
+                <th style="text-align:right;">Harga</th>
+                <th style="text-align:right;">Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>${itemsHtml}</tbody>
+          </table>
+          <div class="total">Total: ${formatCurrency(order.total)}</div>
+          ${order.notes ? `<div class="note">Catatan: ${order.notes}</div>` : ''}
+          <div class="qr"><img src="${qrUrl}" alt="QR Code" width="200" height="200"></div>
+          <div class="meta" style="text-align:center;">Scan untuk detail pesanan</div>
+        </div>
       </body>
     </html>
-  `);
+  `;
 
-  printWindow.document.close();
-  printWindow.focus();
-  printWindow.print();
+  const frame = document.createElement('iframe');
+  frame.setAttribute('aria-hidden', 'true');
+  frame.style.position = 'fixed';
+  frame.style.right = '0';
+  frame.style.bottom = '0';
+  frame.style.width = '1px';
+  frame.style.height = '1px';
+  frame.style.border = '0';
+  frame.style.opacity = '0';
+  frame.srcdoc = html;
+  document.body.appendChild(frame);
+
+  const cleanup = () => {
+    setTimeout(() => frame.remove(), 200);
+  };
+
+  const doPrint = () => {
+    const win = frame.contentWindow;
+    if (!win) {
+      cleanup();
+      return;
+    }
+    win.focus();
+    win.print();
+    cleanup();
+  };
+
+  frame.onload = () => {
+    const doc = frame.contentDocument;
+    if (!doc) {
+      doPrint();
+      return;
+    }
+    const images = Array.from(doc.images || []);
+    if (images.length === 0) {
+      doPrint();
+      return;
+    }
+    let loaded = 0;
+    const done = () => {
+      loaded += 1;
+      if (loaded >= images.length) {
+        doPrint();
+      }
+    };
+    images.forEach((img) => {
+      if (img.complete) {
+        done();
+      } else {
+        img.onload = done;
+        img.onerror = done;
+      }
+    });
+    setTimeout(doPrint, 1200);
+  };
 };
 
 const statusLabel = (status) => {
@@ -107,6 +224,13 @@ const statusClasses = (status) => {
   if (status === 'completed') return 'bg-gray-200 text-gray-700';
   return 'bg-rose-100 text-rose-700';
 };
+
+const statusButtonClass = (status, current) => {
+  if (status === current) {
+    return 'bg-coffee-600 text-white border-transparent shadow-sm';
+  }
+  return 'bg-white/90 text-coffee-700 border border-coffee-200 hover:bg-coffee-50';
+};
 </script>
 
 <template>
@@ -114,20 +238,23 @@ const statusClasses = (status) => {
     <div class="flex flex-wrap items-center justify-between gap-4">
       <div>
         <h2 class="text-xl font-bold font-serif text-admin-text-main-light dark:text-admin-text-main-dark">Pesanan</h2>
-        <p class="text-xs text-admin-text-muted-light dark:text-admin-text-muted-dark">Sample - Pengembangan Paket Lanjutan</p>
+        <p class="text-xs text-admin-text-muted-light dark:text-admin-text-muted-dark">Daftar pesanan masuk secara real-time.</p>
       </div>
-      <div class="flex items-center gap-2">
-        <select
-          v-model="statusFilter"
-          @change="fetchOrders"
-          class="px-3 py-2 rounded-xl border border-coffee-200 bg-white text-sm"
-        >
-          <option v-for="status in statusOptions" :key="status" :value="status">
-            {{ status === 'all' ? 'All' : statusLabel(status) }}
-          </option>
-        </select>
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="relative">
+          <select
+            v-model="statusFilter"
+            @change="fetchOrders"
+            class="appearance-none px-4 py-2 pr-10 rounded-2xl border border-white/50 dark:border-white/10 bg-admin-card-light/95 dark:bg-admin-card-dark/85 text-sm text-admin-text-main-light dark:text-admin-text-main-dark shadow-sm focus:outline-none focus:ring-2 focus:ring-admin-primary/20"
+          >
+            <option v-for="status in statusOptions" :key="status" :value="status">
+              {{ status === 'all' ? 'All' : statusLabel(status) }}
+            </option>
+          </select>
+          <span class="material-icons-outlined absolute right-3 top-1/2 -translate-y-1/2 text-[18px] text-admin-text-muted-light">expand_more</span>
+        </div>
         <button
-          class="px-4 py-2 rounded-xl bg-admin-primary text-white text-sm font-semibold"
+          class="px-4 py-2 rounded-2xl bg-coffee-600 text-white text-sm font-semibold shadow-sm hover:bg-coffee-700"
           @click="fetchOrders"
         >
           Refresh
@@ -142,42 +269,46 @@ const statusClasses = (status) => {
       <div
         v-for="order in orders"
         :key="order.id"
-        class="rounded-3xl border border-white/60 bg-white/80 p-4 shadow-soft"
+        class="relative overflow-hidden rounded-3xl border border-white/50 dark:border-white/10 bg-admin-card-light/95 dark:bg-admin-card-dark/90 p-4 sm:p-5 shadow-[0_20px_50px_-35px_rgba(18,12,8,0.45)]"
       >
-        <div class="flex items-start justify-between gap-3">
-          <div>
-            <p class="text-sm font-semibold text-coffee-900">{{ order.customer_name }}</p>
-            <p class="text-xs text-coffee-500">Meja {{ order.table_number }} · {{ order.order_code }}</p>
+        <div class="absolute -top-20 right-0 h-44 w-44 rounded-full bg-amber-100/40 blur-[70px]"></div>
+        <div class="relative flex items-start justify-between gap-4">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-slate-400">
+              <span class="h-1.5 w-1.5 rounded-full bg-slate-400"></span>
+              <span>Order</span>
+              <span class="rounded-full bg-slate-200/80 px-2.5 py-1 text-[10px] font-semibold tracking-normal text-slate-700 dark:bg-white/10 dark:text-white">
+                {{ order.order_code }}
+              </span>
+            </div>
+            <p class="text-lg font-semibold text-admin-text-main-light dark:text-admin-text-main-dark">{{ order.customer_name }}</p>
+            <p class="text-xs text-admin-text-muted-light dark:text-admin-text-muted-dark">
+              Meja {{ order.table_number }} · {{ formatDateTime(order.created_at) }}
+            </p>
           </div>
+
           <span class="px-3 py-1 rounded-full text-xs font-semibold" :class="statusClasses(order.status)">
             {{ statusLabel(order.status) }}
           </span>
         </div>
 
-        <div class="mt-3 flex flex-wrap items-center gap-3 text-xs text-coffee-600">
-          <span>{{ order.items.length }} item</span>
-          <span>Total: Rp {{ Number(order.total).toLocaleString('id-ID') }}</span>
-        </div>
-
-        <div class="mt-4 flex flex-wrap items-center gap-2">
-          <button
-            class="px-3 py-2 rounded-xl bg-coffee-100 text-coffee-700 text-xs font-semibold"
-            @click="openOrder(order)"
-          >
-            Detail
-          </button>
-          <button
-            class="px-3 py-2 rounded-xl bg-coffee-600 text-white text-xs font-semibold"
-            @click="printOrder(order)"
-          >
-            Print & Barcode
-          </button>
-          <div class="flex items-center gap-2">
-            <button class="px-3 py-2 rounded-xl border border-coffee-200 text-xs" @click="updateStatus(order, 'preparing')">Preparing</button>
-            <button class="px-3 py-2 rounded-xl border border-coffee-200 text-xs" @click="updateStatus(order, 'ready')">Ready</button>
-            <button class="px-3 py-2 rounded-xl border border-coffee-200 text-xs" @click="updateStatus(order, 'completed')">Done</button>
+        <div class="relative mt-4 grid grid-cols-2 gap-3">
+          <div class="rounded-2xl bg-slate-50/90 dark:bg-white/5 p-3">
+            <p class="text-[11px] text-slate-500">Total</p>
+            <p class="mt-1 text-base font-semibold text-slate-900 dark:text-white">{{ formatCurrency(order.total) }}</p>
+          </div>
+          <div class="rounded-2xl bg-slate-50/90 dark:bg-white/5 p-3">
+            <p class="text-[11px] text-slate-500">Item</p>
+            <p class="mt-1 text-base font-semibold text-slate-900 dark:text-white">{{ order.items.length }}</p>
           </div>
         </div>
+
+        <button
+          class="relative mt-4 w-full rounded-2xl bg-coffee-600 text-white py-3 text-sm font-semibold shadow-sm hover:bg-coffee-700"
+          @click="openOrder(order)"
+        >
+          Detail Pesanan
+        </button>
       </div>
     </div>
 
@@ -189,7 +320,7 @@ const statusClasses = (status) => {
       leave-from-class="opacity-100 translate-y-0"
       leave-to-class="opacity-0 translate-y-4"
     >
-      <div v-if="showModal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
+      <div v-if="showModal" class="fixed inset-0 z-[70] flex items-end sm:items-center justify-center">
         <div class="absolute inset-0 bg-black/40" @click="closeOrder"></div>
         <div class="relative w-full sm:max-w-xl max-h-[90vh] overflow-hidden bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl">
           <div class="flex items-center justify-between px-6 py-4 border-b border-coffee-100">
@@ -207,23 +338,59 @@ const statusClasses = (status) => {
               <span>{{ selectedOrder?.customer_name }}</span>
               <span>Meja {{ selectedOrder?.table_number }}</span>
             </div>
-            <div class="rounded-2xl bg-cream-50 p-4">
+            <div class="rounded-2xl bg-cream-50 p-4 space-y-2">
               <div
                 v-for="item in selectedOrder?.items || []"
                 :key="item.menu_id"
-                class="flex items-center justify-between text-sm text-coffee-800 py-1"
+                class="flex items-center justify-between text-sm text-coffee-800"
               >
-                <span>{{ item.name }}</span>
-                <span>{{ item.quantity }}x</span>
+                <span class="truncate">{{ item.name }}</span>
+                <span class="text-xs text-coffee-500">{{ item.quantity }}x</span>
+                <span class="font-semibold">{{ formatCurrency(item.subtotal) }}</span>
               </div>
             </div>
-            <div class="rounded-2xl bg-white border border-coffee-100 p-4">
-              <div class="h-14 rounded-lg" style="background: repeating-linear-gradient(90deg, #3f2e25, #3f2e25 2px, transparent 2px, transparent 4px);"></div>
-              <p class="text-center text-xs text-coffee-500 mt-2">Barcode Kitchen</p>
+            <div class="rounded-2xl bg-white border border-coffee-100 p-4 text-center">
+              <img
+                v-if="selectedOrder"
+                :src="getQrUrl(buildQrPayload(selectedOrder), 160)"
+                alt="QR Code"
+                class="mx-auto h-36 w-36 object-contain"
+              />
+              <p class="text-center text-xs text-coffee-500 mt-2">QR Code Pesanan</p>
+            </div>
+            <div class="rounded-2xl bg-cream-50 p-4">
+              <p class="text-xs uppercase tracking-wide text-coffee-400">Ubah Status</p>
+              <div class="mt-3 grid grid-cols-3 gap-2">
+                <button
+                  class="py-2 rounded-xl text-xs font-semibold transition"
+                  :class="statusButtonClass('preparing', selectedOrder?.status)"
+                  @click="updateStatus(selectedOrder, 'preparing')"
+                >
+                  Preparing
+                </button>
+                <button
+                  class="py-2 rounded-xl text-xs font-semibold transition"
+                  :class="statusButtonClass('ready', selectedOrder?.status)"
+                  @click="updateStatus(selectedOrder, 'ready')"
+                >
+                  Ready
+                </button>
+                <button
+                  class="py-2 rounded-xl text-xs font-semibold transition"
+                  :class="statusButtonClass('completed', selectedOrder?.status)"
+                  @click="updateStatus(selectedOrder, 'completed')"
+                >
+                  Done
+                </button>
+              </div>
+            </div>
+            <div v-if="selectedOrder?.notes" class="rounded-2xl bg-white border border-coffee-100 p-4">
+              <p class="text-xs uppercase tracking-wide text-coffee-400">Catatan</p>
+              <p class="text-sm text-coffee-700 mt-1">{{ selectedOrder.notes }}</p>
             </div>
             <div class="flex items-center justify-between text-sm font-semibold text-coffee-800">
               <span>Total</span>
-              <span>Rp {{ Number(selectedOrder?.total || 0).toLocaleString('id-ID') }}</span>
+              <span>{{ formatCurrency(selectedOrder?.total || 0) }}</span>
             </div>
           </div>
           <div class="px-6 py-4 border-t border-coffee-100">
@@ -231,7 +398,7 @@ const statusClasses = (status) => {
               class="w-full py-3 bg-coffee-600 text-white font-semibold rounded-xl"
               @click="printOrder(selectedOrder)"
             >
-              Print & Barcode
+              Print & QR
             </button>
           </div>
         </div>

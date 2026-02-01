@@ -107,15 +107,31 @@ const handleLogout = async () => {
   color: #6f4a25;
 }
 
+.admin-nav-item:hover .admin-nav-icon:not(.admin-nav-icon-cta) {
+  background: rgba(245, 233, 216, 0.85);
+}
+
 .admin-nav-icon-cta {
-  background: linear-gradient(135deg, #b17f56, #8b5a2b);
-  color: white;
-  box-shadow: 0 14px 30px -18px rgba(79, 54, 30, 0.9);
+  background: rgba(255, 255, 255, 0.9);
+  color: #7a5636;
+  border: 1px solid rgba(177, 127, 86, 0.28);
+  box-shadow: 0 12px 24px -22px rgba(79, 54, 30, 0.6);
+}
+
+.admin-nav-item:hover .admin-nav-icon-cta {
+  background: rgba(245, 233, 216, 0.9);
 }
 
 .admin-nav-item-active .admin-nav-icon:not(.admin-nav-icon-cta) {
   background: rgba(245, 233, 216, 0.95);
   color: #8b5a2b;
+}
+
+.admin-nav-item-active .admin-nav-icon-cta {
+  background: linear-gradient(135deg, #b17f56, #8b5a2b);
+  color: white;
+  box-shadow: 0 16px 30px -18px rgba(79, 54, 30, 0.9);
+  transform: translateY(-1px);
 }
 
 .admin-nav-label {
