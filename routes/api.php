@@ -35,7 +35,8 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // CRUD Menu
     Route::post('/menu', [MenuController::class, 'store']);
-    Route::post('/menu/{id}', [MenuController::class, 'update']); // Use POST with _method=PUT for file upload support
+    Route::post('/menu/{id}', [MenuController::class, 'update']);
+    Route::put('/menu/{id}', [MenuController::class, 'update']); // Support _method=PUT (spoofed forms) and direct PUT
     Route::delete('/menu/{id}', [MenuController::class, 'destroy']);
 
     // Orders (Admin)
